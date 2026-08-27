@@ -1,0 +1,11 @@
+# dependencies - reinstalled from package-lock.json via `npm install`
+node_modules/
+
+# local wrangler dev state/cache - can contain cached account tokens
+.wrangler/
+
+# local-only secrets, if you ever create one for `wrangler dev`
+.dev.vars
+.env
+
+npm-debug.log*

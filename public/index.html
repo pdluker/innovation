@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Innovation Daily</title>
+<meta name="description" content="One buildable AI business a day. The pitch, the need, the field, the complexity read, and a ninety-day start plan under one hundred thousand dollars." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Innovation Daily" />
+<meta property="og:description" content="One buildable AI business a day. Under $100k, no skill you can't cover with Claude." />
+<meta property="og:image" content="/cover/show.jpg" />
+<meta property="og:url" content="https://innovation.stluker.com/" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Innovation Daily" />
+<meta name="twitter:description" content="One buildable AI business a day. Under $100k, no skill you can't cover with Claude." />
+<meta name="twitter:image" content="/cover/show.jpg" />
+<link rel="alternate" type="application/rss+xml" title="Innovation Daily" href="/rss.xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2EAD8;
+  --paper-2:#E9DFC6;
+  --ink:#1C1712;
+  --ink-soft:#5B5145;
+  --rule:#D6C8A3;
+  --forest:#2B5C46;
+  --forest-deep:#122019;
+  --forest-bright:#4FA37E;
+  --rust:#B5541E;
+  --rust-deep:#271811;
+  --rust-bright:#E08A46;
+  --display:"Archivo Black",system-ui,sans-serif;
+  --body:"Newsreader",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-size:19px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+a{color:var(--rust);text-decoration:none;border-bottom:1px solid rgba(181,84,30,.35)}
+a:hover{border-bottom-color:var(--rust)}
+:focus-visible{outline:3px solid var(--rust);outline-offset:2px}
+button{font-family:inherit}
+
+/* ---------- masthead ---------- */
+.masthead{padding:26px 0 18px;text-align:center;position:relative}
+.masthead-poster{
+  width:104px;height:104px;object-fit:cover;display:block;margin:0 auto 14px;
+  border:2px solid var(--ink);box-shadow:4px 4px 0 var(--forest-bright);
+}
+.masthead .dateline{
+  position:absolute;left:24px;top:30px;font-family:var(--mono);font-size:12px;
+  font-weight:600;letter-spacing:.06em;line-height:1.5;text-align:left;
+}
+.masthead .dateline .day{display:block}
+.subscribe-top{
+  position:absolute;right:24px;top:24px;
+  font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.1em;
+  background:var(--rust-bright);color:var(--ink);border:2px solid var(--ink);
+  padding:10px 18px;text-transform:uppercase;border-bottom:2px solid var(--ink);
+  box-shadow:3px 3px 0 var(--ink);
+}
+.subscribe-top:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}
+.feed-row{
+  display:inline-flex;align-items:center;gap:0;margin-top:16px;
+  border:1.5px solid var(--ink);background:var(--paper-2);font-family:var(--mono);
+  font-size:12px;max-width:100%;
+}
+.feed-row .feed-label{
+  padding:8px 12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);
+  border-right:1.5px solid var(--rule);white-space:nowrap;
+}
+.feed-row code{
+  padding:8px 12px;color:var(--ink);max-width:340px;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap;
+}
+.feed-row button{
+  background:var(--forest-bright);color:var(--forest-deep);border:none;
+  padding:8px 14px;font-family:var(--mono);font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.08em;cursor:pointer;flex:none;
+}
+.feed-row button.copied{background:var(--rust-bright);color:var(--rust-deep)}
+h1.logo{
+  font-family:var(--display);font-size:clamp(30px,5vw,50px);letter-spacing:-.01em;
+  margin:6px 0 4px;line-height:1;
+}
+h1.logo span{color:var(--rust)}
+.masthead .tagline{
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-soft);
+  text-transform:uppercase;
+}
+
+/* ---------- ticker ---------- */
+.ticker{
+  background:var(--ink);color:var(--paper);overflow:hidden;position:relative;
+  border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+}
+.ticker-track{
+  display:flex;white-space:nowrap;width:max-content;
+  animation:ticker-scroll 55s linear infinite;
+}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker-item{
+  font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  padding:11px 34px;display:inline-flex;align-items:center;gap:14px;color:#E7DFC9;
+}
+.ticker-item::before{content:"\25CF";color:var(--rust-bright);font-size:8px}
+@keyframes ticker-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.ticker-track{animation:none;overflow-x:auto}}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:1fr 380px;gap:44px;padding:40px 0 24px;align-items:start}
+.eyebrow-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--forest);font-weight:600;
+}
+.day-badge{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--paper);background:var(--ink);padding:5px 10px;
+}
+.eyebrow.rule{
+  color:var(--ink-soft);display:flex;align-items:center;gap:10px;margin:44px 0 14px;
+}
+.eyebrow.rule::after{content:"";flex:1;height:1px;background:var(--rule)}
+h2.title{
+  font-family:var(--display);font-size:clamp(32px,4.6vw,56px);line-height:1.02;
+  letter-spacing:-.01em;margin:0 0 20px;
+}
+.dek{font-size:22px;line-height:1.6;color:#2A241D;max-width:60ch;margin:0 0 26px}
+.dek::first-letter{
+  font-family:var(--display);font-size:64px;float:left;line-height:.8;
+  padding:6px 10px 0 0;color:var(--ink);
+}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;padding:14px 22px;border:2px solid var(--ink);
+  display:inline-flex;align-items:center;gap:10px;cursor:pointer;
+}
+.btn-solid{background:var(--ink);color:var(--paper);box-shadow:4px 4px 0 var(--forest-bright)}
+.btn-solid:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--forest-bright)}
+.btn-outline{background:transparent;color:var(--ink)}
+.btn-outline:hover{background:var(--ink);color:var(--paper)}
+
+/* ---------- sidebar cards ---------- */
+.card{border:2px solid var(--ink);position:relative}
+.card-tag{
+  position:absolute;left:16px;top:-14px;background:var(--paper);padding:0 8px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:600;display:flex;align-items:center;gap:8px;
+}
+.card-tag::before{content:"\25C6";font-size:9px}
+
+.call-card{background:var(--forest-deep);color:#EAF3EE;border-color:var(--forest);
+  box-shadow:6px 6px 0 var(--forest);margin-bottom:8px;padding:26px 22px 20px}
+.call-card .card-tag{color:var(--forest-bright);border:1px solid var(--forest);background:var(--forest-deep)}
+.call-headline{font-family:var(--display);font-size:23px;line-height:1.28;margin:10px 0 14px}
+.call-body{font-size:16px;line-height:1.55;color:#C9DCD1;margin:0 0 16px}
+.call-meta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.chip{
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid var(--forest-bright);color:var(--forest-bright);padding:4px 9px;
+}
+.chip.solid{background:var(--forest-bright);color:var(--forest-deep);border-color:var(--forest-bright)}
+.call-divider{border-top:1px dashed rgba(79,163,126,.4);margin:0 0 14px}
+.call-source{
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:#7FA695;
+  margin-bottom:14px;
+}
+.share-row{display:flex;flex-wrap:wrap;gap:8px}
+.share-btn{
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;background:var(--forest-bright);color:var(--forest-deep);
+  border:none;padding:8px 12px;cursor:pointer;
+}
+.share-btn:hover{background:#66C29B}
+.share-btn.copied{background:#EAF3EE}
+
+/* ---------- audio card ---------- */
+.audio-card{
+  background:var(--rust-deep);border-color:var(--rust);box-shadow:6px 6px 0 var(--rust);
+  padding:16px;display:flex;gap:14px;align-items:center;margin-top:24px;
+}
+.audio-card img,.audio-card .art-fallback{
+  width:64px;height:64px;flex:none;border:1px solid #6B3A22;background:#3A2115;
+}
+.audio-info{flex:1;min-width:0}
+.audio-info .a-title{font-family:var(--display);font-size:14px;color:#F5E4D3;margin:0 0 3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.audio-info .a-show{font-family:var(--mono);font-size:11px;color:#C88A5F;letter-spacing:.05em}
+.audio-controls{display:flex;align-items:center;gap:10px;margin-top:8px}
+.audio-controls button{
+  background:none;border:none;color:#F5E4D3;cursor:pointer;padding:2px;
+  display:flex;align-items:center;justify-content:center;
+}
+.play-btn{
+  width:34px;height:34px;border-radius:50%;background:var(--rust-bright)!important;
+  color:var(--rust-deep)!important;flex:none;
+}
+.seek{flex:1;-webkit-appearance:none;appearance:none;height:4px;background:#5A3220;
+  border-radius:2px;cursor:pointer;}
+.seek::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;
+  background:var(--rust-bright);margin-top:-4px}
+.seek::-moz-range-thumb{width:12px;height:12px;border-radius:50%;border:none;background:var(--rust-bright)}
+.time-label{font-family:var(--mono);font-size:11px;color:#C88A5F;white-space:nowrap}
+
+/* ---------- full edition ---------- */
+#fullEdition{border-top:3px solid var(--ink);padding-top:8px;margin-top:20px}
+.fe-label{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-soft);padding:14px 0;
+}
+
+.scorebar{display:flex;align-items:center;gap:18px;margin:6px 0 8px;flex-wrap:wrap}
+.scorebar .num{font-family:var(--display);font-size:44px;color:var(--forest);line-height:1}
+.scorebar .num small{font-family:var(--mono);font-size:14px;color:var(--ink-soft)}
+.scorebar .band,.scorebar .type{
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  padding:5px 10px;border:1.5px solid var(--ink);
+}
+.scorebar .band{border-color:var(--forest);color:var(--forest)}
+.components{display:flex;gap:4px;margin:14px 0 12px;height:7px}
+.components span{flex:1;background:var(--paper-2);position:relative;border:1px solid var(--rule)}
+.components span::after{content:"";position:absolute;left:0;bottom:0;top:0;background:var(--forest);width:var(--v,0%)}
+.comp-legend{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 26px;font-family:var(--mono);
+  font-size:11px;letter-spacing:.04em;color:var(--ink-soft);text-transform:uppercase}
+.comp-legend b{color:var(--ink)}
+
+.player-inline{
+  background:var(--paper-2);border:1px solid var(--rule);padding:14px 18px;
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:6px;
+}
+.player-inline audio{flex:1;min-width:220px;height:36px}
+.player-inline .runtime{font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+
+.pitch{border-left:3px solid var(--rust);padding:2px 0 2px 22px;margin:6px 0 0;font-size:21px;color:#2A241D}
+.pitch .stamp{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+  color:var(--rust);text-transform:uppercase;margin-bottom:8px}
+.prose p{max-width:66ch;margin:0 0 18px;color:#2A241D}
+
+.field-list{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;padding:0;list-style:none}
+.field-list li{font-family:var(--mono);font-size:12px;color:var(--ink);
+  border:1px solid var(--ink);padding:5px 10px;background:var(--paper-2)}
+
+.complexity{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.notches{display:flex;gap:5px}
+.notch{width:32px;height:9px;background:var(--paper-2);border:1px solid var(--rule)}
+.notch.on{background:var(--forest);border-color:var(--forest)}
+.complexity .read{font-family:var(--mono);font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em}
+
+.ledger{margin:6px 0 26px}
+.ledger .bar{position:relative;display:flex;height:44px;background:var(--paper-2);border:1px solid var(--ink);overflow:hidden}
+.ledger .seg:hover{filter:brightness(1.15)}
+.ledger .rest{flex:1;background:repeating-linear-gradient(135deg,var(--paper-2) 0 6px,var(--paper) 6px 12px)}
+.ledger .scale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;
+  color:var(--ink-soft);margin-top:8px;text-transform:uppercase;letter-spacing:.08em}
+.ledger .lines{margin:18px 0 0;padding:0;list-style:none;border-top:1px solid var(--rule)}
+.ledger .lines li{display:flex;justify-content:space-between;gap:16px;padding:11px 0;
+  border-bottom:1px solid var(--rule);font-size:16px}
+.ledger .lines .amt{font-family:var(--mono);font-size:13px;color:var(--rust)}
+.ledger .lines .swatch{display:inline-block;width:10px;height:10px;margin-right:10px}
+.ledger .total{display:flex;justify-content:space-between;padding:13px 0 0;font-family:var(--mono);
+  font-size:13px;letter-spacing:.08em;text-transform:uppercase;border-top:2px solid var(--ink)}
+.ledger .total .amt{color:var(--forest)}
+
+.phases{margin:0;padding:0;list-style:none}
+.phases li{display:grid;grid-template-columns:100px 1fr;gap:18px;padding:16px 0;
+  border-bottom:1px solid var(--rule)}
+.phases .when{font-family:var(--mono);font-size:12px;color:var(--rust);letter-spacing:.06em;padding-top:4px}
+.phases p{margin:0;max-width:60ch;color:#2A241D}
+
+.verdict-block{border:2px solid var(--forest);background:var(--paper-2);padding:18px 20px;margin:0 0 8px}
+.verdict-block strong{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--forest);display:block;margin-bottom:8px}
+
+.bearcase{border-left:3px solid var(--rust);padding:2px 0 2px 22px;margin:0 0 8px;font-size:17px;color:#4A2E1B}
+.bearcase .stamp{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  color:var(--rust);text-transform:uppercase;margin-bottom:8px}
+
+.assumptions{margin:0 0 8px;padding:0;list-style:none}
+.assumptions li{display:grid;grid-template-columns:20px 1fr;gap:12px;padding:9px 0;
+  border-bottom:1px solid var(--rule);font-size:16px}
+.assumptions li::before{content:"";width:12px;height:12px;border:1.5px solid var(--forest);margin-top:4px}
+
+.note{background:var(--paper-2);border:1px solid var(--rule);padding:16px 18px;font-size:16px;
+  color:#2A241D;margin:0 0 8px}
+.note strong{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);display:block;margin-bottom:6px}
+
+details.transcript{border-top:1px solid var(--rule);padding-top:18px;margin-top:30px}
+details.transcript summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-soft);list-style:none}
+details.transcript summary::-webkit-details-marker{display:none}
+details.transcript summary::before{content:"+ ";color:var(--rust)}
+details.transcript[open] summary::before{content:"- "}
+details.transcript .body{white-space:pre-wrap;margin-top:18px;color:#2A241D;max-width:66ch;font-size:17px}
+
+/* ---------- archive ---------- */
+.archive{margin-top:56px;border-top:3px solid var(--ink);padding-top:6px}
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:16px 0 20px}
+.filter-group{display:flex;flex-wrap:wrap;gap:6px}
+.filter-label{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);margin-right:4px;align-self:center;
+}
+.chip-btn{
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;
+  border:1px solid var(--ink);background:var(--paper);color:var(--ink);
+  padding:6px 11px;cursor:pointer;
+}
+.chip-btn:hover{background:var(--paper-2)}
+.chip-btn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.filter-reset{
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--rust);background:none;border:none;cursor:pointer;padding:6px 4px;
+  text-decoration:underline;text-underline-offset:2px;
+}
+.filter-count{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-left:auto}
+.arch-row{display:grid;grid-template-columns:104px 1fr 70px 92px;gap:14px;align-items:baseline;
+  padding:14px 0;border-bottom:1px solid var(--rule);width:100%;text-align:left;
+  background:none;border-left:0;border-right:0;border-top:0;color:inherit;
+  font-family:inherit;font-size:17px;cursor:pointer;}
+.arch-row:hover{background:var(--paper-2)}
+.arch-row[aria-current="true"] .a-title{color:var(--rust)}
+.arch-row .a-date,.arch-row .a-cx,.arch-row .a-cap{font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+.arch-row .a-cap{text-align:right}
+.arch-row .a-cx{text-align:right;color:var(--forest);font-weight:600}
+.arch-head{color:var(--ink-soft);cursor:default;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;font-size:11px}
+.arch-head:hover{background:none}
+.arch-empty{font-family:var(--mono);font-size:13px;color:var(--ink-soft);padding:24px 0}
+
+footer{margin:60px 0 50px;padding-top:22px;border-top:1px solid var(--rule);
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);
+  display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between}
+.state{font-family:var(--mono);font-size:13px;color:var(--ink-soft);padding:60px 0}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr}
+  .masthead .dateline{position:static;text-align:center;margin-bottom:10px}
+  .subscribe-top{position:static;display:inline-flex;margin-top:12px}
+  .masthead{padding-bottom:16px}
+}
+@media (max-width:640px){
+  body{font-size:18px}
+  .arch-row{grid-template-columns:76px 1fr 56px;gap:8px}
+  .arch-row .a-cap{display:none}
+  .phases li{grid-template-columns:1fr;gap:6px}
+  .pitch{font-size:19px;padding-left:16px}
+  .call-headline{font-size:20px}
+  .feed-row{max-width:92vw}
+  .feed-row code{max-width:44vw}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="dateline" id="dateline"><span class="day">Loading</span></div>
+    <a class="subscribe-top" href="/rss.xml">Subscribe</a>
+    <img class="masthead-poster" src="/cover/show.jpg" alt="Innovation Daily cover art"
+         onerror="this.style.display='none'">
+    <h1 class="logo">INNOVATION <span>DAILY</span></h1>
+    <div class="tagline">One buildable AI business a day &middot; under $100k &middot; no skill you can't cover with Claude</div>
+    <div class="feed-row">
+      <span class="feed-label">Podcast feed</span>
+      <code id="feedUrlText">/feed.xml</code>
+      <button id="copyFeedBtn" data-label="Copy">Copy</button>
+    </div>
+  </header>
+</div>
+
+<div class="ticker" id="ticker" hidden>
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<div class="wrap">
+  <main id="main" aria-live="polite">
+    <div class="state">Loading today's brief...</div>
+  </main>
+</div>
+
+<div class="wrap">
+  <footer>
+    <span>Innovation Daily</span>
+    <span><a href="/rss.xml">RSS feed</a> &middot; <a href="#" id="txtLink">Transcript</a></span>
+  </footer>
+</div>
+
+<script>
+const HUE = {
+  "Vertical AI":"#2B5C46","AI Ops":"#3C6E52","Data Products":"#8A6A1E",
+  "AI Services":"#2E5A6E","Infra & Tooling":"#5A4A7A","Consumer AI":"#8A3C55","Physical + AI":"#4C6E2E"
+};
+const CEILING = 100000;
+const cache = new Map();
+let manifest = [];
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const money = (n) => "$" + Number(n).toLocaleString("en-US");
+const longDate = (d) => new Date(d + "T12:00:00Z").toLocaleDateString("en-US",
+  { weekday:"long", month:"long", day:"numeric", year:"numeric", timeZone:"UTC" });
+const shortTime = (s) => {
+  if (!isFinite(s) || s < 0) s = 0;
+  const m = Math.floor(s/60), sec = Math.floor(s%60);
+  return `${m}:${String(sec).padStart(2,"0")}`;
+};
+
+/** Clipboard with a fallback for browsers/contexts where the async API is
+ *  unavailable or denied - selects a temporary textarea and uses the
+ *  legacy execCommand path instead of silently doing nothing. */
+async function copyText(text){
+  try{
+    await navigator.clipboard.writeText(text);
+    return true;
+  }catch(err){
+    try{
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    }catch(err2){
+      return false;
+    }
+  }
+}
+
+function flashButton(btn, text){
+  const original = btn.dataset.label || btn.textContent;
+  btn.classList.add("copied");
+  btn.textContent = text;
+  setTimeout(() => { btn.classList.remove("copied"); btn.textContent = original; }, 1400);
+}
+
+function initFeedRow(){
+  const url = `${location.origin}/feed.xml`;
+  $("#feedUrlText").textContent = url;
+  $("#copyFeedBtn").onclick = async (e) => {
+    const btn = e.currentTarget;
+    const ok = await copyText(url);
+    flashButton(btn, ok ? "Copied" : "Select & copy manually");
+  };
+}
+
+function segColor(category, i){
+  const base = HUE[category] || "#3C6E52";
+  return base;
+}
+
+function ledger(ep){
+  const segs = ep.capital.lines.map((l,i) =>
+    `<div class="seg" style="width:${(l.amount/CEILING*100).toFixed(2)}%;background:${segColor(ep.category,i)};opacity:${1 - i*0.12}" title="${esc(l.label)}: ${money(l.amount)}"></div>`
+  ).join("");
+  const rows = ep.capital.lines.map((l,i) =>
+    `<li><span><span class="swatch" style="background:${segColor(ep.category,i)};opacity:${1 - i*0.12}"></span>${esc(l.label)}</span><span class="amt">${money(l.amount)}</span></li>`
+  ).join("");
+  return `<div class="ledger">
+    <div class="bar">${segs}<div class="rest" title="Unspent against the $100k ceiling"></div></div>
+    <div class="scale"><span>$0</span><span>Ceiling $100,000</span></div>
+    <ul class="lines">${rows}</ul>
+    <div class="total"><span>Total to start</span><span class="amt">${money(ep.capital.total)}</span></div>
+  </div>`;
+}
+
+const COMPONENT_LABELS = {
+  capitalEfficiency:"Capital efficiency", executionEase:"Execution ease",
+  aiLeverage:"AI leverage", defensibility:"Defensibility", marketValidation:"Market validation"
+};
+function scoreBlock(ep){
+  const c = ep.score.components;
+  const bars = Object.keys(COMPONENT_LABELS).map(k => `<span style="--v:${c[k]}%" title="${COMPONENT_LABELS[k]}: ${c[k]}"></span>`).join("");
+  const legend = Object.keys(COMPONENT_LABELS).map(k => `<span><b>${c[k]}</b> ${COMPONENT_LABELS[k]}</span>`).join("");
+  return `<div class="scorebar">
+      <div class="num">${ep.score.overall}<small>&nbsp;/ 100</small></div>
+      <span class="band">${esc(ep.score.band)}</span>
+      <span class="type">${esc(ep.opportunityType)}</span>
+    </div>
+    <div class="components" role="img" aria-label="Score components">${bars}</div>
+    <div class="comp-legend">${legend}</div>`;
+}
+function assumptionsList(ep){
+  return `<ul class="assumptions">${ep.assumptions.map(a => `<li>${esc(a)}</li>`).join("")}</ul>`;
+}
+
+/* ---------- audio player (real controls, real cover art) ---------- */
+function bindPlayer(ep){
+  const audio = $("#audioEl");
+  const playBtn = $("#playBtn");
+  const seek = $("#seekBar");
+  const elapsed = $("#elapsedLabel");
+  const total = $("#totalLabel");
+  if (!audio) return;
+
+  audio.src = `/audio/${ep.date}.mp3`;
+  seek.value = 0;
+  elapsed.textContent = "0:00";
+  total.textContent = ep.durationLabel || shortTime(ep.durationSeconds);
+  playBtn.textContent = "\u25B6";
+  playBtn.setAttribute("aria-label", "Play");
+
+  playBtn.onclick = () => { audio.paused ? audio.play() : audio.pause(); };
+  audio.onplay = () => { playBtn.textContent = "\u23F8"; playBtn.setAttribute("aria-label","Pause"); };
+  audio.onpause = () => { playBtn.textContent = "\u25B6"; playBtn.setAttribute("aria-label","Play"); };
+  audio.ontimeupdate = () => {
+    if (audio.duration) seek.value = (audio.currentTime / audio.duration) * 100;
+    elapsed.textContent = shortTime(audio.currentTime);
+  };
+  audio.onloadedmetadata = () => { if (isFinite(audio.duration)) total.textContent = shortTime(audio.duration); };
+  seek.oninput = () => { if (audio.duration) audio.currentTime = (seek.value/100) * audio.duration; };
+  $("#back15").onclick = () => { audio.currentTime = Math.max(0, audio.currentTime - 15); };
+  $("#fwd15").onclick = () => { audio.currentTime = Math.min(audio.duration||0, audio.currentTime + 15); };
+}
+
+/* ---------- share buttons on the call card ---------- */
+function bindShare(ep){
+  const pageUrl = () => `${location.origin}/${ep.date}`;
+
+  $("#shareLink").onclick = async (e) => {
+    const btn = e.currentTarget;
+    const ok = await copyText(pageUrl());
+    flashButton(btn, ok ? "Copied" : "Select & copy manually");
+  };
+  $("#shareCopy").onclick = async (e) => {
+    const btn = e.currentTarget;
+    const ok = await copyText(`${ep.verdict}\n\n${pageUrl()}`);
+    flashButton(btn, ok ? "Copied" : "Select & copy manually");
+  };
+  $("#shareImage").onclick = () => window.open(`/art/${ep.date}.svg`, "_blank");
+  $("#shareX").href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(ep.pullQuote)}&url=${encodeURIComponent(pageUrl())}`;
+  $("#shareLinkedIn").href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl())}`;
+}
+
+function render(ep){
+  const notches = [1,2,3,4,5].map(n => `<span class="notch ${n <= ep.complexity ? "on" : ""}"></span>`).join("");
+
+  $("#main").innerHTML = `
+    <section class="hero">
+      <div>
+        <div class="eyebrow-row">
+          <span class="eyebrow">Today's Edition &mdash; ${esc(ep.category)}</span>
+          <span class="day-badge" id="dayBadge"></span>
+        </div>
+        <h2 class="title">${esc(ep.title)}</h2>
+        <p class="dek">${esc(ep.thesis)}</p>
+        <div class="hero-actions">
+          <button class="btn btn-solid" id="openFull">Open the full edition &rarr;</button>
+          <a class="btn btn-outline" href="/rss.xml">Subscribe</a>
+        </div>
+      </div>
+
+      <aside>
+        <div class="card call-card">
+          <span class="card-tag">The Call</span>
+          <div class="call-headline">${esc(ep.pullQuote)}</div>
+          <p class="call-body">${esc(ep.verdict)}</p>
+          <div class="call-meta">
+            <span class="chip solid">${ep.score.overall} / 100</span>
+            <span class="chip">${esc(ep.score.band)}</span>
+            <span class="chip">${esc(ep.opportunityType)}</span>
+          </div>
+          <div class="call-divider"></div>
+          <div class="call-source">INNOVATION DAILY &middot; ${esc(ep.date)}</div>
+          <div class="share-row">
+            <button class="share-btn" id="shareLink" data-label="Link">Link</button>
+            <button class="share-btn" id="shareCopy" data-label="Copy">Copy</button>
+            <button class="share-btn" id="shareImage" data-label="Cover">Cover</button>
+            <a class="share-btn" id="shareX" target="_blank" rel="noopener">X</a>
+            <a class="share-btn" id="shareLinkedIn" target="_blank" rel="noopener">In</a>
+          </div>
+        </div>
+
+        <div class="card audio-card">
+          <img src="/art/${ep.date}.svg" alt="" class="art-fallback" onerror="this.style.display='none'">
+          <audio id="audioEl" preload="none" style="display:none"></audio>
+          <div class="audio-info">
+            <div class="a-title">${esc(ep.title)}</div>
+            <div class="a-show">Innovation Daily &middot; ${esc(ep.date)}</div>
+            <div class="audio-controls">
+              <button id="back15" aria-label="Back 15 seconds">&#8634;15</button>
+              <button id="playBtn" class="play-btn" aria-label="Play">&#9654;</button>
+              <button id="fwd15" aria-label="Forward 15 seconds">15&#8635;</button>
+              <input type="range" class="seek" id="seekBar" min="0" max="100" value="0" />
+              <span class="time-label"><span id="elapsedLabel">0:00</span> / <span id="totalLabel">${esc(ep.durationLabel)}</span></span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <article id="fullEdition">
+      <div class="fe-label">The full edition</div>
+
+      <div class="player-inline">
+        <audio controls preload="none" src="/audio/${ep.date}.mp3"></audio>
+        <span class="runtime">${esc(ep.durationLabel)} &middot; ${ep.wordCount} words</span>
+      </div>
+
+      ${scoreBlock(ep)}
+
+      <div class="eyebrow rule">The pitch &mdash; 60 seconds</div>
+      <div class="pitch"><span class="stamp">Elevator</span>${esc(ep.sections.elevatorPitch)}</div>
+
+      <div class="eyebrow rule">The need</div>
+      <div class="prose"><p>${esc(ep.sections.theNeed)}</p></div>
+
+      <div class="eyebrow rule">The field</div>
+      <ul class="field-list">${ep.competitors.map(c => `<li>${esc(c)}</li>`).join("")}</ul>
+      <div class="prose"><p>${esc(ep.sections.theField)}</p></div>
+
+      <div class="eyebrow rule">Execution complexity</div>
+      <div class="complexity">
+        <div class="notches" role="img" aria-label="Complexity ${ep.complexity} of 5">${notches}</div>
+        <span class="read">${ep.complexity} of 5</span>
+      </div>
+      <div class="prose"><p>${esc(ep.sections.complexityRead)}</p></div>
+
+      <div class="eyebrow rule">Capital &mdash; what the money buys</div>
+      ${ledger(ep)}
+
+      <div class="eyebrow rule">First ninety days</div>
+      <ul class="phases">
+        <li><span class="when">Days 1&ndash;30</span><p>${esc(ep.firstNinety[0])}</p></li>
+        <li><span class="when">Days 31&ndash;60</span><p>${esc(ep.firstNinety[1])}</p></li>
+        <li><span class="when">Days 61&ndash;90</span><p>${esc(ep.firstNinety[2])}</p></li>
+      </ul>
+      <div class="prose" style="margin-top:22px"><p>${esc(ep.sections.howToStart)}</p></div>
+
+      <div class="eyebrow rule">Where Claude carries it</div>
+      <p class="note"><strong>Skill coverage</strong>${esc(ep.claudeRole)}</p>
+      <p class="note"><strong>Moat, honestly</strong>${esc(ep.moat)}</p>
+      <p class="note"><strong>Sourcing</strong>${esc(ep.sourceNotes)}</p>
+
+      <div class="eyebrow rule">Close</div>
+      <div class="prose"><p>${esc(ep.sections.close)}</p></div>
+
+      <div class="eyebrow rule">Verdict &mdash; written only, not narrated</div>
+      <p class="verdict-block"><strong>Call</strong>${esc(ep.verdict)}</p>
+
+      <div class="eyebrow rule">Why I wouldn't do it</div>
+      <div class="bearcase"><span class="stamp">Bear case</span>${esc(ep.bearCase)}</div>
+
+      <div class="eyebrow rule">What would have to be true</div>
+      ${assumptionsList(ep)}
+
+      <details class="transcript">
+        <summary>Full transcript (audio only)</summary>
+        <div class="body">${esc(ep.transcript)}</div>
+      </details>
+    </article>
+
+    <section class="archive">
+      <div class="eyebrow rule">Archive</div>
+      <div class="filter-bar" id="filterBar"></div>
+      <div class="arch-row arch-head" aria-hidden="true">
+        <span class="a-date">Date</span><span class="a-title">Business</span>
+        <span class="a-cx">Score</span><span class="a-cap">Capital</span>
+      </div>
+      <div id="archiveList"></div>
+    </section>`;
+
+  $("#openFull").onclick = () => $("#fullEdition").scrollIntoView({ behavior: "smooth", block: "start" });
+  $("#txtLink").href = `/transcript/${ep.date}.txt`;
+  document.title = `${ep.title} - Innovation Daily`;
+  $("#dateline").innerHTML = `<span class="day">${esc(longDate(ep.date))}</span>`;
+
+  const dayNumber = manifest.length - manifest.findIndex(e => e.date === ep.date);
+  $("#dayBadge").textContent = dayNumber > 0 ? `Day ${dayNumber}` : "";
+
+  bindPlayer(ep);
+  bindShare(ep);
+  drawArchive(ep.date);
+}
+
+/* ---------- archive filters ----------
+ * Everything here filters an array you already have client-side - no new
+ * API calls, no backend changes. Capital tiers match the $100k ceiling
+ * that's already the show's entire premise, so the buckets mean something
+ * rather than being arbitrary round numbers. */
+const CAPITAL_TIERS = [
+  { id: "under25", label: "Under $25k", test: (n) => n < 25000 },
+  { id: "25to50", label: "$25k-$50k", test: (n) => n >= 25000 && n < 50000 },
+  { id: "50to100", label: "$50k-$100k", test: (n) => n >= 50000 }
+];
+
+const archiveFilter = { category: null, capitalTier: null };
+
+function drawFilterBar(){
+  const categories = Array.from(new Set(manifest.map(e => e.category))).sort();
+
+  const categoryChips = categories.map(cat => `
+    <button class="chip-btn" data-kind="category" data-value="${esc(cat)}"
+      aria-pressed="${archiveFilter.category === cat}">${esc(cat)}</button>`).join("");
+
+  const capitalChips = CAPITAL_TIERS.map(t => `
+    <button class="chip-btn" data-kind="capital" data-value="${t.id}"
+      aria-pressed="${archiveFilter.capitalTier === t.id}">${esc(t.label)}</button>`).join("");
+
+  const anyFilterActive = archiveFilter.category || archiveFilter.capitalTier;
+
+  $("#filterBar").innerHTML = `
+    <span class="filter-label">Category</span>
+    <div class="filter-group">${categoryChips}</div>
+    <span class="filter-label">Capital</span>
+    <div class="filter-group">${capitalChips}</div>
+    ${anyFilterActive ? `<button class="filter-reset" id="filterReset">Clear filters</button>` : ""}
+  `;
+
+  document.querySelectorAll(".chip-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const kind = btn.dataset.kind;
+      const value = btn.dataset.value;
+      if (kind === "category") {
+        archiveFilter.category = archiveFilter.category === value ? null : value;
+      } else {
+        archiveFilter.capitalTier = archiveFilter.capitalTier === value ? null : value;
+      }
+      drawFilterBar();
+      drawArchiveList();
+    });
+  });
+
+  const resetBtn = $("#filterReset");
+  if (resetBtn) resetBtn.onclick = () => {
+    archiveFilter.category = null;
+    archiveFilter.capitalTier = null;
+    drawFilterBar();
+    drawArchiveList();
+  };
+}
+
+function filteredManifest(){
+  return manifest.filter(e => {
+    if (archiveFilter.category && e.category !== archiveFilter.category) return false;
+    if (archiveFilter.capitalTier) {
+      const tier = CAPITAL_TIERS.find(t => t.id === archiveFilter.capitalTier);
+      if (tier && !tier.test(e.capitalTotal)) return false;
+    }
+    return true;
+  });
+}
+
+function drawArchiveList(){
+  const rows = filteredManifest();
+  const currentDate = window.__currentEpisodeDate || null;
+
+  $("#archiveList").innerHTML = rows.length
+    ? rows.map(e => `
+        <button class="arch-row" data-date="${e.date}" aria-current="${e.date === currentDate}">
+          <span class="a-date">${esc(e.date)}</span>
+          <span class="a-title">${esc(e.title)}</span>
+          <span class="a-cx">${e.score ?? "-"}</span>
+          <span class="a-cap">${money(e.capitalTotal)}</span>
+        </button>`).join("")
+    : `<div class="arch-empty">No archived briefs match these filters.</div>`;
+
+  document.querySelectorAll(".arch-row[data-date]").forEach(el =>
+    el.addEventListener("click", () => { location.hash = el.dataset.date; }));
+}
+
+function drawArchive(currentDate){
+  window.__currentEpisodeDate = currentDate;
+  drawFilterBar();
+  drawArchiveList();
+}
+
+function buildTicker(){
+  if (manifest.length === 0) return;
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const items = manifest.slice(0, 10).map(e =>
+    `<span class="ticker-item">${esc(e.title)} &mdash; ${e.score ?? "?"}/100, ${money(e.capitalTotal)} to start</span>`
+  ).join("");
+  // Duplicated once for a seamless scroll loop - but only when the loop
+  // actually animates. Under reduced motion it's a static, scrollable list,
+  // so duplicating would just show every entry twice.
+  $("#tickerTrack").innerHTML = reduceMotion ? items : items + items;
+  $("#ticker").hidden = false;
+}
+
+async function load(date){
+  if (cache.has(date)) return render(cache.get(date));
+  $("#main").innerHTML = `<div class="state">Loading ${esc(date)}...</div>`;
+  try{
+    const res = await fetch(`/api/episode/${date}.json`);
+    if (!res.ok) throw new Error("not found");
+    const ep = await res.json();
+    cache.set(date, ep);
+    render(ep);
+  }catch(err){
+    $("#main").innerHTML = `<div class="state">No brief published for ${esc(date)}. Pick another date from the archive below.</div>`;
+  }
+}
+
+function fromHash(){
+  const h = location.hash.replace("#","");
+  if (/^\d{4}-\d{2}-\d{2}$/.test(h)) return h;
+  // Additive: a bare date path (/2026-08-27) exists so shared links get a
+  // real server-rendered preview (see the Worker's date-path route). If
+  // someone lands on that URL directly - or pastes it into a browser - the
+  // client should recognize it the same way it recognizes the hash form.
+  const p = location.pathname.replace(/^\/+|\/+$/g, "");
+  if (/^\d{4}-\d{2}-\d{2}$/.test(p)) return p;
+  return manifest[0] ? manifest[0].date : null;
+}
+
+async function boot(){
+  initFeedRow();
+  try{
+    const res = await fetch("/api/episodes.json");
+    const data = await res.json();
+    manifest = data.episodes || [];
+  }catch(err){
+    manifest = [];
+  }
+
+  buildTicker();
+  const date = fromHash();
+  if (!date){
+    $("#main").innerHTML = `<div class="state">No briefs published yet. The first one lands on the next scheduled run.</div>`;
+    $("#dateline").innerHTML = `<span class="day">${esc(new Date().toDateString())}</span>`;
+    return;
+  }
+  load(date);
+}
+
+window.addEventListener("hashchange", () => { const d = fromHash(); if (d) load(d); });
+boot();
+</script>
+</body>
+</html>

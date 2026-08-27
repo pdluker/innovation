@@ -1,0 +1,71 @@
+{
+  // Innovation Daily - one Worker, one R2 bucket, one cron.
+  //
+  // AFTER any interactive `wrangler r2 bucket create` prompt, run
+  // `cat wrangler.jsonc` and confirm there is exactly ONE r2_buckets entry.
+  // The interactive flow has silently appended a second, differently-named
+  // binding before, which the code then never reads.
+
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "innovation-daily",
+  "main": "index.js",
+  "compatibility_date": "2026-08-01",
+
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+
+    // Without this, Cloudflare serves a static file forever on any path
+    // that also has Worker logic, and the Worker code never runs. A daily
+    // pipeline once updated live data for over a week with zero visible
+    // effect because of exactly this.
+    "run_worker_first": [
+      "/api/*",
+      "/audio/*",
+      "/art/*",
+      "/cover/*",
+      "/transcript/*",
+      "/rss.xml",
+      "/feed.xml",
+      "/refresh",
+      "/status"
+    ]
+  },
+
+  "r2_buckets": [
+    {
+      "binding": "PODCAST_BUCKET",
+      "bucket_name": "innovation-daily"
+    }
+  ],
+
+  "triggers": {
+    // 11:00 UTC = 06:00 America/Chicago (CDT) / 05:00 (CST).
+    // NOTE: Cloudflare Free caps the ACCOUNT at 5 cron triggers total,
+    // across every Worker. Workers Paid ($5/mo) raises that to 250 per
+    // account - plenty of room for this show plus several more.
+    "crons": ["0 11 * * *"]
+  },
+
+  "vars": {
+    "PUBLIC_ORIGIN": "https://innovation.stluker.com",
+
+    // Recalibrate this after timing episode one against its real word count.
+    // Do not leave it at the seed value once you have a measurement.
+    "WORDS_PER_MINUTE": "140",
+
+    // ElevenLabs speed. Confirmed working range 0.7-1.2, default 1.0.
+    // Out-of-range values are rejected with a 400, not clamped by the API.
+    "NARRATOR_SPEED": "1.06"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+
+  // Secrets - set via `wrangler secret put`, NEVER in vars, never committed:
+  //   ANTHROPIC_API_KEY
+  //   ELEVENLABS_API_KEY
+  //   NARRATOR_VOICE_ID   <- the Voice ID string, not the display name
+  //   REFRESH_SECRET
+}
