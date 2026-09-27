@@ -341,6 +341,59 @@ footer{margin:60px 0 50px;padding-top:22px;border-top:1px solid var(--rule);
   display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between}
 .state{font-family:var(--mono);font-size:13px;color:var(--ink-soft);padding:60px 0}
 
+/* ---------- trust: sources, corrections, fact-check ---------- */
+.correction{border:2px solid var(--rust);background:#F6E3CF;padding:16px 18px;margin:6px 0 18px}
+.correction strong{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--rust);margin-bottom:6px}
+.correction p{margin:0 0 8px;font-size:17px;max-width:66ch}
+.correction p:last-child{margin-bottom:0}
+.fc-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--forest);border:1.5px solid var(--forest);padding:5px 10px;margin:0 0 14px}
+.fc-badge::before{content:"\2713"}
+.score-link{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.capped-note{font-family:var(--mono);font-size:11px;color:var(--rust);letter-spacing:.04em;margin:-16px 0 22px}
+.field-list a{color:var(--ink);border-bottom:none}
+.field-list a:hover{text-decoration:underline}
+.sources{margin:0 0 8px;padding:0;list-style:none}
+.sources li{padding:9px 0;border-bottom:1px solid var(--rule);font-size:16px}
+.sources li .pub{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-soft);text-transform:uppercase;margin-left:6px}
+.verified-line{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:10px 0 0}
+
+/* ---------- validation kit ---------- */
+.kit{border:2px solid var(--ink);background:var(--paper-2);padding:20px 22px;margin:6px 0 8px}
+.kit h3{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--forest);margin:22px 0 10px}
+.kit h3:first-child{margin-top:0}
+.kit p,.kit li{font-size:16px}
+.kit ol,.kit ul{margin:0 0 6px;padding-left:22px}
+.kit li{margin:0 0 6px}
+.kit .q{font-family:var(--mono);font-size:13px;background:var(--paper);border:1px solid var(--rule);padding:2px 6px;word-break:break-word}
+.kit .copy{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--forest-bright);color:var(--forest-deep);border:none;padding:3px 8px;cursor:pointer;margin-left:6px}
+.kit .landing{border-left:3px solid var(--rust);padding:2px 0 2px 16px}
+.kit .landing .h{font-family:var(--display);font-size:20px;line-height:1.25;margin:0 0 6px}
+.kit .checklist{list-style:none;padding-left:0}
+.kit .checklist li::before{content:"\2610  ";color:var(--forest)}
+.kit-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+/* ---------- reactions + revisit ---------- */
+.react-box{margin:0 0 16px}
+.react-label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7FA695;margin-bottom:8px}
+.react-row{display:flex;gap:8px;flex-wrap:wrap}
+.react-btn{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  background:transparent;color:#EAF3EE;border:1px solid var(--forest-bright);padding:7px 11px;cursor:pointer}
+.react-btn span{opacity:.75;margin-left:4px}
+.react-btn[aria-pressed="true"]{background:var(--forest-bright);color:var(--forest-deep)}
+.revisit{border:2px solid var(--forest);background:var(--paper-2);padding:18px 20px;margin:0 0 8px}
+.revisit strong{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--forest);display:block;margin-bottom:8px}
+.revisit ul{margin:10px 0 0;padding-left:20px;font-size:16px}
+
+/* ---------- archive search ---------- */
+.search-row{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 4px}
+.search-row input[type="search"]{flex:1;min-width:220px;font-family:var(--mono);font-size:13px;padding:9px 12px;
+  border:1.5px solid var(--ink);background:var(--paper);color:var(--ink)}
+.filter-select{font-family:var(--mono);font-size:11px;letter-spacing:.04em;border:1px solid var(--ink);
+  background:var(--paper);color:var(--ink);padding:6px 8px}
+
 @media (max-width:860px){
   .hero{grid-template-columns:1fr}
   .masthead .dateline{position:static;text-align:center;margin-bottom:10px}
@@ -390,8 +443,8 @@ footer{margin:60px 0 50px;padding-top:22px;border-top:1px solid var(--rule);
 
 <div class="wrap">
   <footer>
-    <span>Innovation Daily</span>
-    <span><a href="/rss.xml">RSS feed</a> &middot; <a href="#" id="txtLink">Transcript</a></span>
+    <span>Innovation Daily &middot; research, not financial advice &middot; capital figures are estimates</span>
+    <span><a href="/method.html">Method</a> &middot; <a href="/rss.xml">RSS feed</a> &middot; <a href="#" id="txtLink">Transcript</a></span>
   </footer>
 </div>
 
@@ -473,25 +526,152 @@ function ledger(ep){
     <div class="bar">${segs}<div class="rest" title="Unspent against the $100k ceiling"></div></div>
     <div class="scale"><span>$0</span><span>Ceiling $100,000</span></div>
     <ul class="lines">${rows}</ul>
-    <div class="total"><span>Total to start</span><span class="amt">${money(ep.capital.total)}</span></div>
+    <div class="total"><span>Estimated total to start</span><span class="amt">${money(ep.capital.total)}</span></div>
   </div>`;
 }
 
-const COMPONENT_LABELS = {
+// Score v2 components, heaviest first. v1 labels stay only so an episode
+// that somehow missed the recompute still renders.
+const COMPONENT_LABELS_V2 = {
+  defensibility:"Defensibility", marketValidation:"Market validation", roomToEnter:"Room to enter",
+  aiLeverage:"AI leverage", executionEase:"Execution ease", capitalEfficiency:"Capital efficiency"
+};
+const COMPONENT_LABELS_V1 = {
   capitalEfficiency:"Capital efficiency", executionEase:"Execution ease",
   aiLeverage:"AI leverage", defensibility:"Defensibility", marketValidation:"Market validation"
 };
 function scoreBlock(ep){
   const c = ep.score.components;
-  const bars = Object.keys(COMPONENT_LABELS).map(k => `<span style="--v:${c[k]}%" title="${COMPONENT_LABELS[k]}: ${c[k]}"></span>`).join("");
-  const legend = Object.keys(COMPONENT_LABELS).map(k => `<span><b>${c[k]}</b> ${COMPONENT_LABELS[k]}</span>`).join("");
+  const labels = ep.score.version === 2 ? COMPONENT_LABELS_V2 : COMPONENT_LABELS_V1;
+  const bars = Object.keys(labels).map(k => `<span style="--v:${c[k]}%" title="${labels[k]}: ${c[k]}"></span>`).join("");
+  const legend = Object.keys(labels).map(k => `<span><b>${c[k]}</b> ${labels[k]}</span>`).join("");
+  const capped = ep.score.capped
+    ? `<p class="capped-note">Capped at ${esc(ep.score.band)}: the moat is rated ${esc(String(ep.score.capped).replace("moat-", ""))} of 5.</p>`
+    : "";
   return `<div class="scorebar">
       <div class="num">${ep.score.overall}<small>&nbsp;/ 100</small></div>
       <span class="band">${esc(ep.score.band)}</span>
       <span class="type">${esc(ep.opportunityType)}</span>
+      <a class="score-link" href="/method.html#score">How this is scored</a>
     </div>
     <div class="components" role="img" aria-label="Score components">${bars}</div>
-    <div class="comp-legend">${legend}</div>`;
+    <div class="comp-legend">${legend}</div>${capped}`;
+}
+
+/* ---------- trust blocks ---------- */
+function correctionsBlock(ep){
+  const list = Array.isArray(ep.corrections) ? ep.corrections : [];
+  if (!list.length) return "";
+  return `<div class="correction" role="note"><strong>Correction</strong>${list.map(c => `<p>${esc(c.text)}</p>`).join("")}<p><a href="/method.html">How corrections work</a></p></div>`;
+}
+
+function factCheckBadge(ep){
+  const st = ep.factCheck && ep.factCheck.status;
+  if (!["passed","revised","cut"].includes(st)) return "";
+  return `<div class="fc-badge" title="The script was checked against its sources before the audio was made">Fact-checked against sources before audio</div>`;
+}
+
+function competitorChips(ep){
+  const notes = new Map(((ep.verification && ep.verification.competitors) || []).map(c => [c.name, c]));
+  return ep.competitors.map(name => {
+    const v = notes.get(name);
+    const label = esc(name);
+    if (v && v.url) return `<li><a href="${esc(v.url)}" target="_blank" rel="noopener" title="${esc(v.note || "")}">${label}</a></li>`;
+    return `<li${v && v.note ? ` title="${esc(v.note)}"` : ""}>${label}</li>`;
+  }).join("");
+}
+
+function sourcesBlock(ep){
+  const v = ep.verification;
+  if (!v || !Array.isArray(v.sources) || v.sources.length === 0) {
+    return `<p class="note"><strong>Sourcing</strong>${esc(ep.sourceNotes)}</p>`;
+  }
+  const items = v.sources.map(s =>
+    `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.claim)}</a><span class="pub">${esc(s.publisher)}</span></li>`
+  ).join("");
+  const when = v.lastVerified ? `Competitors and sources last checked ${esc(v.lastVerified)}. ` : "";
+  return `<ul class="sources">${items}</ul>
+    <p class="verified-line">${when}Capital figures and ratings are estimates. <a href="/method.html">What verified means</a></p>`;
+}
+
+/* ---------- validation kit ---------- */
+function kitBlock(ep){
+  const k = ep.validationKit;
+  if (!k) return "";
+  const questions = k.interviewScript.questions.map(q => `<li>${esc(q)}</li>`).join("");
+  const searches = k.searchQueries.map(s =>
+    `<li><span class="q">${esc(s.query)}</span><button class="copy" data-copy="${esc(s.query)}" data-label="Copy">Copy</button><br><small>${esc(s.where)} &middot; ${esc(s.finds)}</small></li>`
+  ).join("");
+  const bullets = k.landingPage.bullets.map(b => `<li>${esc(b)}</li>`).join("");
+  const week = k.firstWeek.map(t => `<li><b>${esc(t.day)}:</b> ${esc(t.task)} <small>(Evidence: ${esc(t.evidence)})</small></li>`).join("");
+  return `<div class="kit">
+      <h3>1. Customer interview - 15 minutes, no pitching</h3>
+      <p><b>Open:</b> ${esc(k.interviewScript.opening)}</p>
+      <ol>${questions}</ol>
+      <p><b>Close:</b> ${esc(k.interviewScript.closing)}</p>
+      <h3>2. Ten searches that find real buyers</h3>
+      <ol>${searches}</ol>
+      <h3>3. Landing page for a smoke test</h3>
+      <div class="landing"><p class="h">${esc(k.landingPage.headline)}</p><p>${esc(k.landingPage.subhead)}</p><ul>${bullets}</ul><p><b>Call to action:</b> ${esc(k.landingPage.callToAction)}</p></div>
+      <h3>4. First week</h3>
+      <ul class="checklist">${week}</ul>
+      <div class="kit-actions"><a class="btn btn-outline" href="/kit/${esc(ep.date)}.md" download>Download worksheet</a></div>
+    </div>`;
+}
+
+/* ---------- 90 days later ---------- */
+const CALL_HELD = {
+  "yes": "So far the call is holding up.",
+  "no": "So far the call has not held up.",
+  "too-early": "Too early to grade the call.",
+  "unclear": "The evidence so far points both ways."
+};
+function revisitBlock(ep){
+  const r = ep.revisit;
+  if (!r) return "";
+  const findings = (r.findings || []).map(f =>
+    `<li><b>${esc(f.company)}</b> (${esc(f.event)}, ${esc(f.date)}): ${esc(f.detail)} <a href="${esc(f.url)}" target="_blank" rel="noopener">source</a></li>`).join("");
+  return `<div class="eyebrow rule" id="revisit">Ninety days later</div>
+    <div class="revisit"><strong>Checked ${esc(r.checkedAt)} &middot; ${esc(CALL_HELD[r.callHeldUp] || "")}</strong>
+      <p>${esc(r.summary)}</p><p>${esc(r.callReasoning)}</p>${findings ? `<ul>${findings}</ul>` : ""}</div>`;
+}
+
+/* ---------- pursue / watch / pass ---------- */
+const REACTION_LABELS = { pursue: "Pursue", watch: "Watch", pass: "Pass" };
+function drawReactions(ep, data){
+  const box = $("#reactBox");
+  if (!box) return;
+  box.hidden = false;
+  box.innerHTML = `<div class="react-label">Your call</div><div class="react-row">${
+    Object.keys(REACTION_LABELS).map(r =>
+      `<button class="react-btn" data-r="${r}" aria-pressed="${data.mine === r}">${REACTION_LABELS[r]}<span>${data.counts[r] || 0}</span></button>`).join("")
+  }</div>`;
+  box.querySelectorAll(".react-btn").forEach(btn => {
+    btn.onclick = async () => {
+      try{
+        const res = await fetch("/api/react", { method: "POST", headers: { "content-type": "application/json" },
+          body: JSON.stringify({ date: ep.date, reaction: btn.dataset.r }) });
+        const next = await res.json();
+        if (res.ok) drawReactions(ep, next); else flashButton(btn, "Try later");
+      }catch(err){ flashButton(btn, "Try later"); }
+    };
+  });
+}
+async function bindReactions(ep){
+  try{
+    const res = await fetch(`/api/reactions/${ep.date}`);
+    if (!res.ok) return; // reactions switched off - the card simply has no buttons
+    drawReactions(ep, await res.json());
+  }catch(err){ /* offline or disabled: leave the card as it is */ }
+}
+
+function bindKit(){
+  document.querySelectorAll(".kit .copy").forEach(btn => {
+    btn.onclick = async () => {
+      const ok = await copyText(btn.dataset.copy);
+      flashButton(btn, ok ? "Copied" : "Select & copy");
+    };
+  });
 }
 function assumptionsList(ep){
   return `<ul class="assumptions">${ep.assumptions.map(a => `<li>${esc(a)}</li>`).join("")}</ul>`;
@@ -573,6 +753,7 @@ function render(ep){
             <span class="chip">${esc(ep.score.band)}</span>
             <span class="chip">${esc(ep.opportunityType)}</span>
           </div>
+          <div class="react-box" id="reactBox" hidden></div>
           <div class="call-divider"></div>
           <div class="call-source">INNOVATION DAILY &middot; ${esc(ep.date)}</div>
           <div class="share-row">
@@ -605,6 +786,9 @@ function render(ep){
     <article id="fullEdition">
       <div class="fe-label">The full edition</div>
 
+      ${correctionsBlock(ep)}
+      ${factCheckBadge(ep)}
+
       <div class="player-inline">
         <audio controls preload="none" src="/audio/${ep.date}.mp3"></audio>
         <span class="runtime">${esc(ep.durationLabel)} &middot; ${ep.wordCount} words</span>
@@ -619,7 +803,7 @@ function render(ep){
       <div class="prose"><p>${esc(ep.sections.theNeed)}</p></div>
 
       <div class="eyebrow rule">The field</div>
-      <ul class="field-list">${ep.competitors.map(c => `<li>${esc(c)}</li>`).join("")}</ul>
+      <ul class="field-list">${competitorChips(ep)}</ul>
       <div class="prose"><p>${esc(ep.sections.theField)}</p></div>
 
       <div class="eyebrow rule">Execution complexity</div>
@@ -643,7 +827,9 @@ function render(ep){
       <div class="eyebrow rule">Where Claude carries it</div>
       <p class="note"><strong>Skill coverage</strong>${esc(ep.claudeRole)}</p>
       <p class="note"><strong>Moat, honestly</strong>${esc(ep.moat)}</p>
-      <p class="note"><strong>Sourcing</strong>${esc(ep.sourceNotes)}</p>
+
+      <div class="eyebrow rule" id="sources">Sources</div>
+      ${sourcesBlock(ep)}
 
       <div class="eyebrow rule">Close</div>
       <div class="prose"><p>${esc(ep.sections.close)}</p></div>
@@ -651,11 +837,15 @@ function render(ep){
       <div class="eyebrow rule">Verdict &mdash; written only, not narrated</div>
       <p class="verdict-block"><strong>Call</strong>${esc(ep.verdict)}</p>
 
+      ${revisitBlock(ep)}
+
       <div class="eyebrow rule">Why I wouldn't do it</div>
       <div class="bearcase"><span class="stamp">Bear case</span>${esc(ep.bearCase)}</div>
 
       <div class="eyebrow rule">What would have to be true</div>
       ${assumptionsList(ep)}
+
+      ${ep.validationKit ? `<div class="eyebrow rule" id="kit">Validation kit &mdash; test it this week</div>${kitBlock(ep)}` : ""}
 
       <details class="transcript">
         <summary>Full transcript (audio only)</summary>
@@ -665,6 +855,7 @@ function render(ep){
 
     <section class="archive">
       <div class="eyebrow rule">Archive</div>
+      <div class="search-row"><input type="search" id="archiveSearch" placeholder="Search titles, competitors, tags" aria-label="Search the archive"></div>
       <div class="filter-bar" id="filterBar"></div>
       <div class="arch-row arch-head" aria-hidden="true">
         <span class="a-date">Date</span><span class="a-title">Business</span>
@@ -683,21 +874,42 @@ function render(ep){
 
   bindPlayer(ep);
   bindShare(ep);
+  bindKit();
+  bindReactions(ep);
   drawArchive(ep.date);
 }
 
-/* ---------- archive filters ----------
+/* ---------- archive search and filters ----------
  * Everything here filters an array you already have client-side - no new
  * API calls, no backend changes. Capital tiers match the $100k ceiling
  * that's already the show's entire premise, so the buckets mean something
- * rather than being arbitrary round numbers. */
+ * rather than being arbitrary round numbers. The search box is rendered
+ * once per page and never redrawn, so typing never loses focus. */
 const CAPITAL_TIERS = [
   { id: "under25", label: "Under $25k", test: (n) => n < 25000 },
   { id: "25to50", label: "$25k-$50k", test: (n) => n >= 25000 && n < 50000 },
   { id: "50to100", label: "$50k-$100k", test: (n) => n >= 50000 }
 ];
+const COMPLEXITY_TIERS = [
+  { id: "low", label: "Low (1-2)", test: (n) => n <= 2 },
+  { id: "mid", label: "Medium (3)", test: (n) => n === 3 },
+  { id: "high", label: "High (4-5)", test: (n) => n >= 4 }
+];
+const TYPES = ["build", "buy", "invest"];
+const SCORE_BANDS = ["Strong", "Solid", "Speculative", "Weak"];
 
-const archiveFilter = { category: null, capitalTier: null };
+const archiveFilter = { category: null, capitalTier: null, complexity: null, type: null, band: null, q: "" };
+
+function anyFilterActive(){
+  return Boolean(archiveFilter.category || archiveFilter.capitalTier || archiveFilter.complexity ||
+    archiveFilter.type || archiveFilter.band || archiveFilter.q.trim());
+}
+
+function selectHtml(kind, label, options){
+  const opts = options.map(o =>
+    `<option value="${esc(o.id)}"${archiveFilter[kind] === o.id ? " selected" : ""}>${esc(o.label)}</option>`).join("");
+  return `<select class="filter-select" data-kind="${kind}" aria-label="${esc(label)}"><option value="">${esc(label)}: any</option>${opts}</select>`;
+}
 
 function drawFilterBar(){
   const categories = Array.from(new Set(manifest.map(e => e.category))).sort();
@@ -710,17 +922,21 @@ function drawFilterBar(){
     <button class="chip-btn" data-kind="capital" data-value="${t.id}"
       aria-pressed="${archiveFilter.capitalTier === t.id}">${esc(t.label)}</button>`).join("");
 
-  const anyFilterActive = archiveFilter.category || archiveFilter.capitalTier;
+  const shown = filteredManifest().length;
 
   $("#filterBar").innerHTML = `
     <span class="filter-label">Category</span>
     <div class="filter-group">${categoryChips}</div>
     <span class="filter-label">Capital</span>
     <div class="filter-group">${capitalChips}</div>
-    ${anyFilterActive ? `<button class="filter-reset" id="filterReset">Clear filters</button>` : ""}
+    ${selectHtml("complexity", "Complexity", COMPLEXITY_TIERS)}
+    ${selectHtml("type", "Type", TYPES.map(t => ({ id: t, label: t })))}
+    ${selectHtml("band", "Score", SCORE_BANDS.map(b => ({ id: b, label: b })))}
+    ${anyFilterActive() ? `<button class="filter-reset" id="filterReset">Clear filters</button>` : ""}
+    <span class="filter-count">${shown} of ${manifest.length}</span>
   `;
 
-  document.querySelectorAll(".chip-btn").forEach(btn => {
+  document.querySelectorAll("#filterBar .chip-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const kind = btn.dataset.kind;
       const value = btn.dataset.value;
@@ -734,21 +950,46 @@ function drawFilterBar(){
     });
   });
 
+  document.querySelectorAll("#filterBar .filter-select").forEach(sel => {
+    sel.addEventListener("change", () => {
+      archiveFilter[sel.dataset.kind] = sel.value || null;
+      drawFilterBar();
+      drawArchiveList();
+    });
+  });
+
   const resetBtn = $("#filterReset");
   if (resetBtn) resetBtn.onclick = () => {
-    archiveFilter.category = null;
-    archiveFilter.capitalTier = null;
+    Object.assign(archiveFilter, { category: null, capitalTier: null, complexity: null, type: null, band: null, q: "" });
+    const box = $("#archiveSearch");
+    if (box) box.value = "";
     drawFilterBar();
     drawArchiveList();
   };
 }
 
+function searchText(e){
+  return [e.title, e.thesis, e.category, e.pullQuote, e.verdict, e.opportunityType,
+    ...(e.tags || []), ...(e.competitors || [])].join(" ").toLowerCase();
+}
+
 function filteredManifest(){
+  const terms = archiveFilter.q.toLowerCase().split(/\s+/).filter(Boolean);
   return manifest.filter(e => {
     if (archiveFilter.category && e.category !== archiveFilter.category) return false;
     if (archiveFilter.capitalTier) {
       const tier = CAPITAL_TIERS.find(t => t.id === archiveFilter.capitalTier);
       if (tier && !tier.test(e.capitalTotal)) return false;
+    }
+    if (archiveFilter.complexity) {
+      const tier = COMPLEXITY_TIERS.find(t => t.id === archiveFilter.complexity);
+      if (tier && !tier.test(e.complexity)) return false;
+    }
+    if (archiveFilter.type && e.opportunityType !== archiveFilter.type) return false;
+    if (archiveFilter.band && e.band !== archiveFilter.band) return false;
+    if (terms.length) {
+      const hay = searchText(e);
+      if (!terms.every(t => hay.includes(t))) return false;
     }
     return true;
   });
@@ -763,10 +1004,13 @@ function drawArchiveList(){
         <button class="arch-row" data-date="${e.date}" aria-current="${e.date === currentDate}">
           <span class="a-date">${esc(e.date)}</span>
           <span class="a-title">${esc(e.title)}</span>
-          <span class="a-cx">${e.score ?? "-"}</span>
+          <span class="a-cx" title="${esc(e.band || "")}">${e.score ?? "-"}</span>
           <span class="a-cap">${money(e.capitalTotal)}</span>
         </button>`).join("")
     : `<div class="arch-empty">No archived briefs match these filters.</div>`;
+
+  const count = document.querySelector("#filterBar .filter-count");
+  if (count) count.textContent = `${rows.length} of ${manifest.length}`;
 
   document.querySelectorAll(".arch-row[data-date]").forEach(el =>
     el.addEventListener("click", () => { location.hash = el.dataset.date; }));
@@ -774,6 +1018,11 @@ function drawArchiveList(){
 
 function drawArchive(currentDate){
   window.__currentEpisodeDate = currentDate;
+  const box = $("#archiveSearch");
+  if (box) {
+    box.value = archiveFilter.q;
+    box.oninput = () => { archiveFilter.q = box.value; drawFilterBar(); drawArchiveList(); };
+  }
   drawFilterBar();
   drawArchiveList();
 }

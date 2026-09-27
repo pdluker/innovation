@@ -6,11 +6,15 @@
 //   2. Unused ideas, any category
 //   3. Reset the used list and start the rotation over (never error out)
 //
-// Deterministic per date so that a re-run of the same day picks the same
-// idea. That matters: a forced re-run should regenerate the same episode,
-// not silently swap the topic out from under an already-published transcript.
+// Only verified entries are eligible (pool.js isSelectable). A held or
+// needs-review idea is never picked, however long it sits in the pool.
+//
+// Deterministic per date and pool state. A forced re-run of an existing
+// date does NOT come through here - index.js reuses that episode's idea, so
+// a re-run regenerates the same business instead of swapping the topic out
+// from under a published transcript.
 
-import { IDEAS } from "./ideas-source.js";
+import { isSelectable } from "./pool.js";
 
 function hashDate(dateKey) {
   let h = 2166136261;
@@ -22,31 +26,36 @@ function hashDate(dateKey) {
 }
 
 /**
- * @param {string} dateKey       "YYYY-MM-DD"
- * @param {object} state         { used: string[], recentCategories: string[] }
+ * @param {string}   dateKey  "YYYY-MM-DD"
+ * @param {object}   state    { used: string[], recentCategories: string[] }
+ * @param {object[]} pool     every pool entry, with verification attached
  * @returns {{ idea: object, state: object, cycleReset: boolean }}
  */
-export function pickIdea(dateKey, state) {
+export function pickIdea(dateKey, state, pool) {
+  const eligible = pool.filter(isSelectable);
+  if (eligible.length === 0) throw new Error("no verified ideas in the pool");
+
   const used = new Set(state.used || []);
   const recentCategories = state.recentCategories || [];
 
   let cycleReset = false;
-  let available = IDEAS.filter((i) => !used.has(i.id));
+  let available = eligible.filter((i) => !used.has(i.id));
 
   if (available.length === 0) {
     // Pool exhausted. Reset rather than throw (spec section 3, step 1).
     cycleReset = true;
     used.clear();
-    available = IDEAS.slice();
+    available = eligible.slice();
   }
 
   const fresh = available.filter((i) => !recentCategories.includes(i.category));
-  const pool = fresh.length > 0 ? fresh : available;
+  const candidates = fresh.length > 0 ? fresh : available;
 
-  const idea = pool[hashDate(dateKey) % pool.length];
+  const idea = candidates[hashDate(dateKey) % candidates.length];
 
   used.add(idea.id);
   const nextCategories = [idea.category, ...recentCategories].slice(0, 2);
+  const usedEligible = eligible.filter((i) => used.has(i.id)).length;
 
   return {
     idea,
@@ -55,8 +64,8 @@ export function pickIdea(dateKey, state) {
       used: Array.from(used),
       recentCategories: nextCategories,
       lastDate: dateKey,
-      poolSize: IDEAS.length,
-      remaining: IDEAS.length - used.size
+      poolSize: eligible.length,
+      remaining: eligible.length - usedEligible
     }
   };
 }

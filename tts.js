@@ -20,10 +20,12 @@ const VOICE_SETTINGS = {
   use_speaker_boost: true
 };
 
-// START AT 140 AND RECALIBRATE. Time a real episode's playback against its
-// real word count and set this to the measured value. A 20 percent gap
-// between assumed and actual pacing has shipped in this pattern before.
-export const WORDS_PER_MINUTE = 140;
+// MEASURED, not guessed: the first 11 episodes (Aug 26 - Sep 22, 2026) ran
+// a median 179 words per minute at speed 1.06 once the inserted pauses are
+// taken out. The seed value of 140 overstated every published duration by
+// about 27 percent. This number is now only a pre-synthesis estimate - the
+// published duration is measured from the MP3 itself (mp3DurationSeconds).
+export const WORDS_PER_MINUTE = 179;
 
 /**
  * Pronunciation layer. Rewrites ONLY the text sent to ElevenLabs. Display
@@ -131,7 +133,10 @@ function chunk(text, maxChars = MAX_BLOCK_CHARS) {
 
 async function synthesizeBlock(env, text, speed) {
   const voiceId = env.NARRATOR_VOICE_ID; // Voice ID string, never a display name
-  const url = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`;
+  // ELEVENLABS_BASE_URL exists only so the offline integration test can
+  // point at a local mock. Production never sets it.
+  const base = env.ELEVENLABS_BASE_URL || "https://api.elevenlabs.io";
+  const url = `${base}/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`;
 
   const res = await fetch(url, {
     method: "POST",
@@ -164,9 +169,47 @@ export function sumBreakSeconds(text) {
   return total;
 }
 
+// MPEG audio frame tables: bitrate (kbps) by index for MPEG-1 and MPEG-2/2.5
+// Layer III, and sample rate by version.
+const MP3_BITRATES = {
+  1: [0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320],
+  2: [0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160]
+};
+const MP3_SAMPLE_RATES = { 3: [44100, 48000, 32000], 2: [22050, 24000, 16000], 0: [11025, 12000, 8000] };
+
+/**
+ * The real playback length of an MP3, from its frame headers. This is what
+ * <itunes:duration> reports - never an estimate. Skips an ID3v2 tag if the
+ * provider ever adds one, and resyncs past any stray bytes.
+ */
+export function mp3DurationSeconds(bytes) {
+  let i = 0;
+  if (bytes.length > 10 && bytes[0] === 0x49 && bytes[1] === 0x44 && bytes[2] === 0x33) {
+    i = 10 + ((bytes[6] << 21) | (bytes[7] << 14) | (bytes[8] << 7) | bytes[9]);
+  }
+  let samples = 0;
+  let sampleRate = 0;
+  while (i + 4 <= bytes.length) {
+    if (bytes[i] !== 0xff || (bytes[i + 1] & 0xe0) !== 0xe0) { i++; continue; }
+    const version = (bytes[i + 1] >> 3) & 3; // 3 = MPEG-1, 2 = MPEG-2, 0 = MPEG-2.5
+    const layer = (bytes[i + 1] >> 1) & 3; // 1 = Layer III
+    const bitrateIndex = (bytes[i + 2] >> 4) & 15;
+    const rateIndex = (bytes[i + 2] >> 2) & 3;
+    const padding = (bytes[i + 2] >> 1) & 1;
+    if (version === 1 || layer !== 1 || bitrateIndex === 0 || bitrateIndex === 15 || rateIndex === 3) { i++; continue; }
+    const kbps = MP3_BITRATES[version === 3 ? 1 : 2][bitrateIndex];
+    sampleRate = MP3_SAMPLE_RATES[version][rateIndex];
+    const samplesPerFrame = version === 3 ? 1152 : 576;
+    samples += samplesPerFrame;
+    i += Math.floor(((samplesPerFrame / 8) * kbps * 1000) / sampleRate) + padding;
+  }
+  return sampleRate ? samples / sampleRate : 0;
+}
+
 /**
  * @returns {{ audio: Uint8Array, byteLength: number, blocks: number,
- *             estimatedDurationSeconds: number, speed: number }}
+ *             durationSeconds: number, estimatedDurationSeconds: number,
+ *             speed: number }}
  */
 export async function narrate(env, narrationForSpeech, wordCount) {
   const speed = Math.min(
@@ -193,15 +236,19 @@ export async function narrate(env, narrationForSpeech, wordCount) {
     offset += p.length;
   }
 
-  // Computed here from the real word count plus the real inserted pause
-  // time - never read from a provider response or a model's self-report.
+  // The published duration is measured from the audio we actually got
+  // back. The words-per-minute estimate is kept alongside it as a drift
+  // check: if the two diverge, the pacing assumption needs recalibrating.
   const wpm = Number(env.WORDS_PER_MINUTE || WORDS_PER_MINUTE);
   const estimatedDurationSeconds = Math.round((wordCount / wpm) * 60 + breakSeconds);
+  const measured = mp3DurationSeconds(audio);
 
   return {
     audio,
     byteLength: audio.length,
     blocks: blocks.length,
+    durationSeconds: measured > 0 ? Math.round(measured) : estimatedDurationSeconds,
+    durationMeasured: measured > 0,
     estimatedDurationSeconds,
     speed
   };

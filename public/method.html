@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Method - Innovation Daily</title>
+<meta name="description" content="How Innovation Daily picks, verifies, writes, checks and scores every brief - and what the score does not mean." />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How Innovation Daily works" />
+<meta property="og:description" content="What 'verified' means, how every brief is fact-checked before audio, the exact Innovation Score formula, and the corrections policy." />
+<meta property="og:image" content="/cover/show.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2EAD8; --paper-2:#E9DFC6; --ink:#1C1712; --ink-soft:#5B5145; --rule:#D6C8A3;
+  --forest:#2B5C46; --forest-deep:#122019; --forest-bright:#4FA37E;
+  --rust:#B5541E; --rust-deep:#271811; --rust-bright:#E08A46;
+  --display:"Archivo Black",system-ui,sans-serif;
+  --body:"Newsreader",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:820px;margin:0 auto;padding:0 24px}
+a{color:var(--rust);text-decoration:none;border-bottom:1px solid rgba(181,84,30,.35)}
+a:hover{border-bottom-color:var(--rust)}
+:focus-visible{outline:3px solid var(--rust);outline-offset:2px}
+header{padding:30px 0 18px;border-bottom:3px solid var(--ink)}
+.back{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+h1{font-family:var(--display);font-size:clamp(30px,5vw,46px);line-height:1.05;margin:18px 0 10px;letter-spacing:-.01em}
+.dek{font-size:21px;color:#2A241D;margin:0 0 6px;max-width:62ch}
+h2{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);
+  display:flex;align-items:center;gap:10px;margin:46px 0 16px}
+h2::after{content:"";flex:1;height:1px;background:var(--rule)}
+p{margin:0 0 16px;max-width:66ch}
+ul{margin:0 0 16px;padding-left:22px;max-width:66ch}
+li{margin:0 0 8px}
+.callout{border:2px solid var(--rust);background:var(--paper-2);padding:18px 20px;margin:26px 0 0}
+.callout strong{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--rust);margin-bottom:8px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.box{border:1px solid var(--rule);background:var(--paper-2);padding:16px 18px}
+.box h3{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 10px;color:var(--forest)}
+.box.no h3{color:var(--rust)}
+.box ul{margin:0;padding-left:18px;font-size:17px}
+table{width:100%;border-collapse:collapse;margin:0 0 18px;font-size:16px}
+th,td{text-align:left;padding:10px 10px 10px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+td.w{font-family:var(--mono);font-size:14px;color:var(--forest);font-weight:600;white-space:nowrap}
+code{font-family:var(--mono);font-size:14px;background:var(--paper-2);padding:1px 5px}
+.bands{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.band{font-family:var(--mono);font-size:12px;letter-spacing:.06em;border:1.5px solid var(--ink);padding:6px 10px}
+.band b{color:var(--forest)}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;position:relative;padding-left:42px;margin-bottom:14px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:2px;width:28px;height:28px;border:2px solid var(--ink);
+  font-family:var(--mono);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center}
+#corrections li{font-size:17px}
+footer{margin:60px 0 50px;padding-top:22px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:11px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between}
+@media (max-width:640px){ body{font-size:18px} .two{grid-template-columns:1fr} td.w{white-space:normal} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="back" href="/">&larr; Innovation Daily</a>
+    <h1>How every brief is made, checked and scored</h1>
+    <p class="dek">Innovation Daily briefs one buildable AI-driven business per episode. This page says exactly what stands behind each one - and what does not.</p>
+  </header>
+
+  <div class="callout" role="note">
+    <strong>Not advice</strong>
+    Innovation Daily is research and commentary. It is not financial, legal, tax or investment advice, and nothing here is a recommendation to spend your money. Capital figures are estimates, ratings are editorial judgments, and markets move after a brief is published. Talk to a qualified professional before you commit money, and do your own checking - the validation kit on each episode exists for exactly that.
+  </div>
+
+  <h2 id="ideas">Where ideas come from</h2>
+  <p>Every episode draws from a curated pool of business concepts. Each entry names who pays, why the need exists now, the real competitors, an execution complexity rating, a capital plan under one hundred thousand dollars, and a ninety-day start plan. The model that writes the brief never invents the business, the competitors or the money - it writes around those fields.</p>
+  <p>An idea can only be picked once it is <b>verified</b>. Ideas that make a legal or regulatory claim a listener could act on are <b>held</b> until the owner signs off on the wording. New ideas start as a one-line seed; Claude researches the seed with live web search and drafts a full entry with its sources, which stays in review until the owner approves it. If the research cannot find real competitors or sources, the seed is marked insufficient rather than filled in with guesses.</p>
+
+  <h2 id="verified">What "verified" means</h2>
+  <div class="two">
+    <div class="box">
+      <h3>Checked, with the date shown</h3>
+      <ul>
+        <li>Every named competitor was checked live: it exists, it does roughly what the brief says, and its owner and name are current.</li>
+        <li>Every number, superlative or named-source claim in the entry links to a source that supports it - or it was removed.</li>
+        <li>Each episode shows its sources and the date they were last checked.</li>
+      </ul>
+    </div>
+    <div class="box no">
+      <h3>Not verified</h3>
+      <ul>
+        <li>Capital figures. They are planning estimates, not quotes.</li>
+        <li>The complexity, AI leverage and defensibility ratings. They are editorial judgments.</li>
+        <li>Anything that changed after the check date.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="checked">How a brief is written and checked</h2>
+  <ol class="steps">
+    <li>The writing model receives the entry, a note on what each competitor actually is, and a list pairing each verified source with the one claim it supports. It may only credit a claim to a source that the list pairs with it.</li>
+    <li>A second, stronger model fact-checks the draft against exactly the same material, sentence by sentence: numbers not in the material, credits to a source that does not say it, overstated claims, unsupported superlatives, invented causes or history, misdescribed competitors, and personal financial advice.</li>
+    <li>Flagged sentences get one rewrite. Anything the check still flags after that is cut before the audio is made - a missing sentence is better than a false one.</li>
+    <li>The audio is generated, and its published length is measured from the file itself, not estimated.</li>
+  </ol>
+  <p>Episodes published before September 29, 2026 were not fact-checked this way. Where a claim in one of them failed the later verification pass, the episode carries a correction note.</p>
+
+  <h2 id="score">The Innovation Score (version 2)</h2>
+  <p>A directional 0-100 read to make the archive comparable - not a valuation and not a prediction. It is computed in code from the entry and its verification record; the model never assigns it, so the same idea always scores the same.</p>
+  <table>
+    <thead><tr><th>Weight</th><th>Component</th><th>How it is computed</th></tr></thead>
+    <tbody>
+      <tr><td class="w">30%</td><td>Defensibility</td><td>The editorial moat rating, 1 to 5, scaled to 0-100.</td></tr>
+      <tr><td class="w">20%</td><td>Market validation</td><td>100 if at least one named company is already paid for this outcome by this buyer; 60 if named companies sell only something adjacent; 20 if none can be named. One paying competitor is proof enough - more do not add points.</td></tr>
+      <tr><td class="w">15%</td><td>Room to enter</td><td>Starts at 100. Minus 25 for each venture-funded or public company selling the same thing to the same buyer; minus 10 for each other named direct competitor. Floor of 0. A crowded market costs points here; it never earns them.</td></tr>
+      <tr><td class="w">15%</td><td>AI leverage</td><td>The editorial rating, 1 to 5, of how much of the work is genuinely model-native.</td></tr>
+      <tr><td class="w">10%</td><td>Execution ease</td><td>The inverse of the 1-to-5 complexity rating.</td></tr>
+      <tr><td class="w">10%</td><td>Capital efficiency</td><td><code>100 x (1 - estimated capital / 100,000)</code></td></tr>
+    </tbody>
+  </table>
+  <div class="bands" aria-label="Score bands">
+    <span class="band"><b>Strong</b> 72+</span>
+    <span class="band"><b>Solid</b> 58-71</span>
+    <span class="band"><b>Speculative</b> 45-57</span>
+    <span class="band"><b>Weak</b> under 45</span>
+  </div>
+  <p><b>Moat caps.</b> A defensibility rating of 1 cannot score above Speculative, and a rating of 2 cannot score above Solid - the number is held at the top of that band. A Strong idea needs a real moat.</p>
+  <p><b>What changed from version 1.</b> Version 1 scored market validation as more points for more competitors, so a crowded market looked better, and gave capital efficiency a quarter of the weight, which rewarded cheap, easily copied services. Version 2 separates proof of demand from crowding and puts the most weight on the moat. Archive scores were recomputed under version 2 on September 27, 2026.</p>
+
+  <h2 id="corrections">Corrections</h2>
+  <p>When a claim in a published episode fails verification, the audio stays as it was released, and the episode page carries a note saying what was said and what is actually supported. Current corrections:</p>
+  <ul id="corrections"><li>Loading...</li></ul>
+
+  <h2 id="durations">Durations</h2>
+  <p>Episode lengths in the feed and on the site are measured from the audio file. Before September 2026 they were estimated from word count at an assumed pace and ran about a quarter too long; archived episodes were corrected to their measured lengths.</p>
+
+  <footer>
+    <span><a href="/">Innovation Daily</a></span>
+    <span><a href="/rss.xml">RSS feed</a></span>
+  </footer>
+</div>
+<script>
+(async function(){
+  const list = document.getElementById("corrections");
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  try{
+    const res = await fetch("/api/episodes.json");
+    const data = await res.json();
+    const rows = (data.episodes || []).filter((e) => e.hasCorrections);
+    list.innerHTML = rows.length
+      ? rows.map((e) => `<li><a href="/${esc(e.date)}">${esc(e.date)} - ${esc(e.title)}</a></li>`).join("")
+      : "<li>None.</li>";
+  }catch(err){
+    list.innerHTML = "<li>Could not load the list. Each affected episode page shows its own note.</li>";
+  }
+})();
+</script>
+</body>
+</html>

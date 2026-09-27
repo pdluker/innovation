@@ -7,9 +7,13 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "tail": "wrangler tail",
-    "check": "node scripts/selftest.mjs"
+    "check": "node scripts/selftest.mjs",
+    "report:pool": "node scripts/report-pool.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.0.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0"
   }
 }

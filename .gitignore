@@ -9,3 +9,6 @@ node_modules/
 .env
 
 npm-debug.log*
+
+# archive migration working files (scripts/backfill-archive.mjs)
+.backfill/
