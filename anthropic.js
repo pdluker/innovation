@@ -18,8 +18,8 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 
-export const BRIEF_MODEL = "claude-sonnet-4-6";
-export const CHECK_MODEL = "claude-opus-5";
+export const BRIEF_MODEL = "claude-sonnet-5-5";
+export const CHECK_MODEL = "claude-opus-5-5";
 
 const FALLBACK_BETA = "server-side-fallback-2026-07-01";
 
