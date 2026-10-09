@@ -97,6 +97,6 @@ The same numbering trap applies to `rails-beneath-us`: its `0 11 * * 1,3,5` mean
 
 1. **Two held ideas.** `estate-inventory` makes a probate licensing claim, and `trade-school-admissions` gives Title IV pricing guidance. The open items and suggested wording are in `npm run report:pool`.
 2. **Three new drafts, needing review.** Two are buy-type: an AI-enabled bookkeeping practice and a property management firm. The third is a consumer appeal app. Approve them in `/admin.html` after step 3, or leave them.
-3. **Episode length.** At the measured pace of 179 wpm, the 540-720 word budget produces about 4-minute episodes, and the feed now says "four-minute". For 5 minutes, raise the targets in `script.js` to about 700-900 words.
+3. ~~**Episode length.**~~ Done 2026-10-09. The 540-720 budget actually produced 3:14-3:43 episodes, because the model writes under its section ranges. The budget is now 800-940 words (ceiling 1000), with the spoken sections raised about 40 percent, aiming at 5 minutes; the feed says "five-minute". Check the measured duration of the first run and adjust `script.js` if needed.
 4. Swap the master doc into the claude.ai project's knowledge (plan item P0 #4).
 5. AI News Daily: deploy it or shelve it.

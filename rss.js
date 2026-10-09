@@ -11,7 +11,7 @@ export const SHOW = {
   title: "Innovation Daily",
   subtitle: "One AI-driven business a day, briefed like it matters.",
   description:
-    "A four-minute brief on one buildable AI-driven business. Each episode covers the sixty-second pitch, the need behind it, who already owns the space, an honest execution complexity read, and a ninety-day start plan with the capital laid out. Every concept is constrained to under one hundred thousand dollars in estimated startup capital and to skills a single operator can cover with Claude.",
+    "A five-minute brief on one buildable AI-driven business. Each episode covers the sixty-second pitch, the need behind it, who already owns the space, an honest execution complexity read, and a ninety-day start plan with the capital laid out. Every concept is constrained to under one hundred thousand dollars in estimated startup capital and to skills a single operator can cover with Claude.",
   author: "Paul Luker",
   ownerEmail: "paul@stluker.com",
   language: "en-us",
