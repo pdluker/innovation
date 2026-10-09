@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Review - Innovation Daily</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2EAD8; --paper-2:#E9DFC6; --ink:#1C1712; --ink-soft:#5B5145; --rule:#D6C8A3;
+  --forest:#2B5C46; --forest-bright:#4FA37E; --rust:#B5541E; --rust-bright:#E08A46;
+  --display:"Archivo Black",system-ui,sans-serif; --body:"Newsreader",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.55 var(--body)}
+.wrap{max-width:1000px;margin:0 auto;padding:24px 20px 60px}
+a{color:var(--rust)}
+h1{font-family:var(--display);font-size:30px;margin:6px 0 4px}
+h2{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);
+  display:flex;gap:10px;align-items:center;margin:36px 0 14px}
+h2::after{content:"";flex:1;height:1px;background:var(--rule)}
+.muted{color:var(--ink-soft);font-size:15px}
+.mono{font-family:var(--mono);font-size:12px}
+button,.btn{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);padding:8px 12px;cursor:pointer}
+button.primary{background:var(--ink);color:var(--paper)}
+button.good{background:var(--forest);border-color:var(--forest);color:#fff}
+button.warn{border-color:var(--rust);color:var(--rust)}
+button:disabled{opacity:.5;cursor:wait}
+input[type=password],textarea{width:100%;font:16px var(--body);padding:10px;border:1.5px solid var(--ink);background:#fff}
+textarea.json{font:12px/1.5 var(--mono);min-height:260px}
+.stats{display:flex;flex-wrap:wrap;gap:10px}
+.stat{border:1.5px solid var(--ink);padding:10px 14px;min-width:140px}
+.stat b{display:block;font-family:var(--display);font-size:26px}
+.card{border:1.5px solid var(--ink);background:var(--paper-2);padding:16px 18px;margin:0 0 14px}
+.card h3{font-family:var(--display);font-size:19px;margin:0 0 6px;line-height:1.25}
+.pill{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--ink);padding:3px 7px;margin-right:6px}
+.pill.needs-review{border-color:var(--rust);color:var(--rust)}
+.pill.held{border-color:var(--rust);background:var(--rust);color:#fff}
+.pill.verified{border-color:var(--forest);color:var(--forest)}
+.pill.insufficient,.pill.rejected{color:var(--ink-soft)}
+.problems{color:var(--rust);font-size:15px;margin:8px 0}
+.row-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+ul.tight{margin:6px 0;padding-left:20px;font-size:15px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:7px 8px 7px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+#msg{position:sticky;top:0;z-index:5}
+#msg div{background:var(--ink);color:var(--paper);padding:10px 14px;font-family:var(--mono);font-size:12px;margin-bottom:10px}
+details summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-top:8px}
+@media (max-width:640px){ .stat{min-width:45%} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mono"><a href="/">&larr; Innovation Daily</a></div>
+  <h1>Review</h1>
+  <p class="muted">Nothing here airs until you approve it. Drafts come from seeds researched with live web search; open the sources before you approve.</p>
+  <div id="msg" aria-live="polite"></div>
+
+  <section id="login" hidden>
+    <h2>Sign in</h2>
+    <form id="loginForm">
+      <p><label for="secret">Your REFRESH_SECRET</label></p>
+      <input type="password" id="secret" autocomplete="current-password" required>
+      <p><button class="primary" type="submit">Sign in</button></p>
+    </form>
+  </section>
+
+  <main id="app" hidden>
+    <div class="stats" id="stats"></div>
+
+    <h2>Waiting for you</h2>
+    <div id="queue"></div>
+
+    <h2>Add an idea</h2>
+    <form id="seedForm">
+      <textarea id="seedText" maxlength="600" placeholder="One line. e.g. Buy a small bookkeeping practice and automate the month-end close"></textarea>
+      <p class="row-actions"><button class="primary" type="submit">Add seed</button>
+      <span class="muted">Researched on the next scheduled run - or press Research on the card to do it now.</span></p>
+    </form>
+
+    <h2>Verified pool</h2>
+    <div id="pool"></div>
+
+    <h2>Reactions</h2>
+    <div id="reactions"></div>
+
+    <p class="row-actions"><button id="logout">Sign out</button></p>
+  </main>
+</div>
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let state = null;
+
+function say(text){
+  $("#msg").innerHTML = text ? `<div>${esc(text)}</div>` : "";
+  if (text) setTimeout(() => { if ($("#msg").textContent === text) $("#msg").innerHTML = ""; }, 8000);
+}
+
+async function api(path, opts = {}){
+  const res = await fetch(path, { credentials: "same-origin", headers: { "content-type": "application/json" }, ...opts });
+  const body = await res.json().catch(() => ({}));
+  if (res.status === 401) { showLogin(); throw new Error("Please sign in."); }
+  if (!res.ok || body.ok === false) throw new Error(body.error || (body.errors || []).join("; ") || `HTTP ${res.status}`);
+  return body;
+}
+
+function showLogin(){ $("#login").hidden = false; $("#app").hidden = true; }
+
+function card(item){
+  const i = item.idea;
+  const v = i && i.verification;
+  const title = i ? i.title : item.seedText;
+  const score = item.score ? `<span class="pill">${item.score.overall} ${esc(item.score.band)}</span>` : "";
+  const problems = (item.problems || []).length && item.status !== "seed"
+    ? `<div class="problems">Must fix before approval: ${item.problems.map(esc).join("; ")}</div>` : "";
+  const notes = item.notes && (item.notes.problems || item.notes.lastError)
+    ? `<details><summary>Research notes</summary><ul class="tight">${[item.notes.lastError, ...(item.notes.problems || [])].filter(Boolean).map(p => `<li>${esc(p)}</li>`).join("")}</ul></details>` : "";
+  const open = v && (v.openItems || []).length ? `<ul class="tight">${v.openItems.map(o => `<li>${esc(o)}</li>`).join("")}</ul>` : "";
+  const comps = v ? `<details><summary>Competitors (${v.competitors.length})</summary><ul class="tight">${v.competitors.map(c => `<li>${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)}</a>` : esc(c.name)} <span class="mono">${esc(c.kind)} / ${esc(c.overlap)}</span> - ${esc(c.note)}</li>`).join("")}</ul></details>` : "";
+  const srcs = v ? `<details><summary>Sources (${v.sources.length})</summary><ul class="tight">${v.sources.map(s => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.claim)}</a> <span class="mono">${esc(s.publisher)}</span></li>`).join("")}</ul></details>` : "";
+  const facts = i ? `<p class="muted">${esc(i.category)} &middot; ${esc(i.opportunityType)} &middot; complexity ${i.complexity}/5 &middot; moat ${i.defensibility}/5 &middot; AI leverage ${i.aiLeverage}/5 &middot; about $${Number(i.capital.total).toLocaleString("en-US")}</p><p>${esc(i.thesis)}</p>` : "";
+  const canDecide = i && ["needs-review","held"].includes(item.status);
+  const canResearch = ["seed","insufficient","needs-review"].includes(item.status);
+  return `<div class="card" data-id="${esc(item.id)}">
+    <div><span class="pill ${esc(item.status)}">${esc(item.status)}</span>${score}<span class="mono">${esc(item.id)}</span></div>
+    <h3>${esc(title || item.id)}</h3>${facts}${open}${problems}${comps}${srcs}${notes}
+    <div class="row-actions">
+      ${canDecide ? `<button class="good" data-act="approve">Approve</button>` : ""}
+      ${item.status === "needs-review" ? `<button class="warn" data-act="hold">Hold</button>` : ""}
+      ${["needs-review","held","insufficient","seed"].includes(item.status) ? `<button data-act="reject">Reject</button>` : ""}
+      ${canResearch ? `<button data-act="promote">${item.status === "seed" ? "Research now" : "Re-research"}</button>` : ""}
+      ${i ? `<button data-act="edit">Edit</button>` : ""}
+    </div>
+    <div class="editor"></div>
+  </div>`;
+}
+
+function render(){
+  const s = state;
+  $("#stats").innerHTML = `
+    <div class="stat"><b>${s.selectable}</b><span class="mono">selectable</span></div>
+    <div class="stat"><b>${s.remaining}</b><span class="mono">left before reset</span></div>
+    <div class="stat"><b>${s.ideas.filter(x => ["needs-review","held","seed","promoting","insufficient"].includes(x.status)).length}</b><span class="mono">waiting</span></div>
+    <div class="stat"><span class="mono">mix</span><div class="muted">${Object.entries(s.mix).map(([k,n]) => `${esc(k)} ${n}`).join(" &middot; ")}</div></div>
+    ${s.database ? "" : `<div class="stat"><span class="mono">database</span><div class="muted">Not connected - showing the bundled pool, read-only.</div></div>`}`;
+
+  const waiting = s.ideas.filter(x => ["needs-review","held","seed","promoting","insufficient"].includes(x.status));
+  $("#queue").innerHTML = waiting.length ? waiting.map(card).join("") : `<p class="muted">Nothing waiting.</p>`;
+
+  const verified = s.ideas.filter(x => x.status === "verified" && x.idea)
+    .sort((a, b) => (b.score ? b.score.overall : 0) - (a.score ? a.score.overall : 0));
+  $("#pool").innerHTML = `<table><thead><tr><th>Score</th><th>Idea</th><th>Category</th><th>Type</th><th>Aired</th></tr></thead><tbody>${
+    verified.map(x => `<tr><td>${x.score.overall} ${esc(x.score.band)}</td><td>${esc(x.idea.title)}</td><td>${esc(x.idea.category)}</td><td>${esc(x.idea.opportunityType)}</td><td>${x.used ? "yes" : ""}</td></tr>`).join("")
+  }</tbody></table>`;
+
+  $("#reactions").innerHTML = s.reactions.length
+    ? `<table><thead><tr><th>Episode</th><th>Pursue</th><th>Watch</th><th>Pass</th><th>Your call</th></tr></thead><tbody>${
+        s.reactions.map(r => `<tr><td><a href="/${esc(r.episode_date)}">${esc(r.episode_date)}</a></td><td>${r.pursue}</td><td>${r.watch}</td><td>${r.pass}</td><td>${esc(r.owner || "")}</td></tr>`).join("")
+      }</tbody></table>`
+    : `<p class="muted">No reactions yet.</p>`;
+
+  document.querySelectorAll(".card button[data-act]").forEach(btn => btn.onclick = () => act(btn));
+}
+
+async function act(btn){
+  const cardEl = btn.closest(".card");
+  const id = cardEl.dataset.id;
+  const what = btn.dataset.act;
+  if (what === "edit") return openEditor(cardEl, id);
+  btn.disabled = true;
+  try{
+    if (what === "promote"){
+      say("Researching with live web search - this can take a minute or two...");
+      const r = await api(`/api/admin/ideas/${id}/promote`, { method: "POST" });
+      say(`Research finished: ${r.status}.`);
+    } else {
+      const note = what === "hold" ? prompt("What needs resolving before this can air?") || "" : "";
+      const r = await api(`/api/admin/ideas/${id}/decide`, { method: "POST", body: JSON.stringify({ decision: what, note }) });
+      say(`${what}: done.${r.warning ? " " + r.warning : ""}`);
+    }
+    await load();
+  }catch(err){ say(err.message); btn.disabled = false; }
+}
+
+async function openEditor(cardEl, id){
+  const r = await api(`/api/admin/ideas/${id}`);
+  const { verification, ...idea } = r.idea;
+  const box = cardEl.querySelector(".editor");
+  box.innerHTML = `<p class="mono">Entry fields - adjust ratings and capital here. Plain ASCII.</p>
+    <textarea class="json" data-part="idea">${esc(JSON.stringify(idea, null, 2))}</textarea>
+    <p class="mono">Verification record</p>
+    <textarea class="json" data-part="verification">${esc(JSON.stringify(verification, null, 2))}</textarea>
+    <p class="row-actions"><button class="primary" data-save>Save</button><button data-cancel>Cancel</button></p>`;
+  box.querySelector("[data-cancel]").onclick = () => { box.innerHTML = ""; };
+  box.querySelector("[data-save]").onclick = async () => {
+    try{
+      const body = {
+        idea: JSON.parse(box.querySelector('[data-part="idea"]').value),
+        verification: JSON.parse(box.querySelector('[data-part="verification"]').value)
+      };
+      const res = await api(`/api/admin/ideas/${id}`, { method: "PUT", body: JSON.stringify(body) });
+      say(res.problems.length ? `Saved. Still to fix before approval: ${res.problems.join("; ")}` : "Saved. Ready to approve.");
+      await load();
+    }catch(err){ say(`Not saved: ${err.message}`); }
+  };
+}
+
+async function load(){
+  state = await api("/api/admin/pool");
+  $("#login").hidden = true;
+  $("#app").hidden = false;
+  render();
+}
+
+$("#loginForm").onsubmit = async (e) => {
+  e.preventDefault();
+  try{
+    await api("/api/admin/login", { method: "POST", body: JSON.stringify({ secret: $("#secret").value }) });
+    $("#secret").value = "";
+    await load();
+  }catch(err){ say(err.message); }
+};
+
+$("#seedForm").onsubmit = async (e) => {
+  e.preventDefault();
+  try{
+    const r = await api("/api/admin/seed", { method: "POST", body: JSON.stringify({ text: $("#seedText").value }) });
+    $("#seedText").value = "";
+    say(`Added ${r.id}.`);
+    await load();
+  }catch(err){ say(err.message); }
+};
+
+$("#logout").onclick = async () => { await fetch("/api/admin/logout", { method: "POST" }); showLogin(); };
+
+load().catch(() => showLogin());
+</script>
+</body>
+</html>

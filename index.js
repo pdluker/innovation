@@ -4,43 +4,31 @@
 // Both entry points - the cron trigger and the Bearer-authed /refresh
 // endpoint - call runPipeline(). Exactly the same function, no exceptions.
 // Everything a visitor sees is read live from R2, never from the deploy
-// bundle.
+// bundle. Only verified pool entries are ever selected (pool.js), and every
+// script is fact-checked against its sources before audio (script.js).
 
-import { IDEAS } from "./ideas-source.js";
+import { isSelectable } from "./pool.js";
+import { loadPool } from "./pool-store.js";
 import { pickIdea, dateKeyFor, isValidDateKey } from "./selection.js";
-import { generateScript, countWords } from "./script.js";
+import { generateScript } from "./script.js";
 import { narrate, formatDuration, WORDS_PER_MINUTE } from "./tts.js";
 import { buildCoverSvg } from "./art.js";
 import { buildRss, SHOW } from "./rss.js";
 import { scoreIdea } from "./score.js";
+import { generateKit, kitMarkdown } from "./kit.js";
+import { KEYS, REVALIDATE, SHORT, MANIFEST_LIMIT, readJson, writeJson, json, manifestSummary } from "./store.js";
+import { bearerOk } from "./auth.js";
+import { handleAdminApi, handleAct } from "./admin.js";
+import { handleReactions } from "./reactions.js";
+import { runMaintenance, reviewQueue } from "./maintenance.js";
+import { notifyOwner } from "./notify.js";
 
-const KEYS = {
-  rotation: "state/rotation.json",
-  manifest: "episodes/index.json",
-  episode: (d) => `episodes/${d}.json`,
-  audio: (d) => `audio/${d}.mp3`,
-  art: (d) => `art/${d}.svg`,
-  lock: (d) => `locks/run-${d}`
-};
-
-const LOCK_TTL_MS = 60_000;
-const MANIFEST_LIMIT = 400;
-
-// Regenerated content at a stable, date-keyed URL. NOT immutable - an
-// immutable header would tell every podcast app to never re-check, so a
-// forced re-run would silently never reach anyone who already fetched
-// (spec gotcha 13).
-const REVALIDATE = "public, max-age=86400, must-revalidate";
-const SHORT = "public, max-age=60, must-revalidate";
+// A full run - brief, fact-check, rewrite, audio, kit - takes minutes, so
+// the lock has to outlive it or a second trigger could take over a run in
+// progress. 15 minutes is the scheduled handler's own wall-clock limit.
+const LOCK_TTL_MS = 15 * 60_000;
 
 // ---------------------------------------------------------------- helpers
-
-function json(body, status = 200, headers = {}) {
-  return new Response(JSON.stringify(body, null, 2), {
-    status,
-    headers: { "content-type": "application/json; charset=utf-8", "cache-control": SHORT, ...headers }
-  });
-}
 
 /** Attribute-safe HTML escaping for the server-side meta-tag rewrite below. */
 function escHtml(s) {
@@ -49,35 +37,6 @@ function escHtml(s) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
-}
-
-/** Every route that can trigger paid generation uses this. Not just the one
- *  you think of as "the" trigger - an unauthenticated generating route WILL
- *  get hit by crawlers and bill you for it (spec gotcha 12). */
-function authorized(request, env) {
-  const header = request.headers.get("Authorization") || "";
-  const expected = `Bearer ${env.REFRESH_SECRET}`;
-  if (!env.REFRESH_SECRET) return false;
-  if (header.length !== expected.length) return false;
-  let diff = 0;
-  for (let i = 0; i < header.length; i++) diff |= header.charCodeAt(i) ^ expected.charCodeAt(i);
-  return diff === 0;
-}
-
-async function readJson(env, key, fallback) {
-  const obj = await env.PODCAST_BUCKET.get(key);
-  if (!obj) return fallback;
-  try {
-    return await obj.json();
-  } catch {
-    return fallback;
-  }
-}
-
-async function writeJson(env, key, value) {
-  await env.PODCAST_BUCKET.put(key, JSON.stringify(value), {
-    httpMetadata: { contentType: "application/json; charset=utf-8", cacheControl: SHORT }
-  });
 }
 
 /** Conditional-write lock. Prevents a cron firing while a manual test is
@@ -105,10 +64,73 @@ async function releaseLock(env, dateKey) {
 
 // --------------------------------------------------------------- pipeline
 
+/** Only what a reader needs from the audit record - no internal notes.
+ *  Also used by scripts/backfill-archive.mjs. */
+export function publicVerification(idea) {
+  const v = idea.verification || {};
+  return {
+    status: v.status || "unverified",
+    lastVerified: v.lastVerified || null,
+    competitors: (v.competitors || []).map(({ name, url, kind, overlap, note }) => ({ name, url, kind, overlap, note })),
+    sources: (v.sources || []).map(({ claim, url, publisher }) => ({ claim, url, publisher }))
+  };
+}
+
+function factCheckStatus(review) {
+  if (!review || (review.error && review.rounds.length === 0)) return "unchecked";
+  if (review.cut && review.cut.length > 0) return "cut";
+  if (review.revised) return "revised";
+  return "passed";
+}
+
+/**
+ * Everything up to the audio, with nothing written: no ElevenLabs call, no
+ * R2 writes, no rotation change. The safe way to see what a run would do -
+ * including the fact-check - before the cron does it for real. Pass an
+ * idea id to test a specific entry, held ones included.
+ */
+async function dryRun(env, dateKey, ideaId) {
+  try {
+    const pool = await loadPool(env);
+    let idea;
+    if (ideaId) {
+      idea = pool.find((i) => i.id === ideaId);
+      if (!idea) return { ok: false, dryRun: true, error: `no idea "${ideaId}" in the pool` };
+    } else {
+      const rotation = await readJson(env, KEYS.rotation, { used: [], recentCategories: [] });
+      idea = pickIdea(dateKey, rotation, pool).idea;
+    }
+
+    const script = await generateScript(env, idea, dateKey);
+    let validationKit = null;
+    let kitError = null;
+    try {
+      validationKit = await generateKit(env, idea);
+    } catch (err) {
+      kitError = err.message;
+    }
+
+    return {
+      ok: true,
+      dryRun: true,
+      date: dateKey,
+      idea: { id: idea.id, title: idea.title, status: idea.verification ? idea.verification.status : "unverified" },
+      score: scoreIdea(idea),
+      wordCount: script.wordCount,
+      factCheck: { status: factCheckStatus(script.review), ...script.review },
+      sections: script.sections,
+      validationKit,
+      kitError
+    };
+  } catch (err) {
+    return { ok: false, dryRun: true, date: dateKey, error: err.message };
+  }
+}
+
 /**
  * The one function both entry points call.
  * @param {object} env
- * @param {object} opts { dateKey?: string, force?: boolean }
+ * @param {object} opts { dateKey?: string, force?: boolean, dryRun?: boolean, ideaId?: string }
  */
 export async function runPipeline(env, opts = {}) {
   const startedAt = Date.now();
@@ -118,9 +140,12 @@ export async function runPipeline(env, opts = {}) {
     return { ok: false, error: `invalid date "${dateKey}", expected YYYY-MM-DD` };
   }
 
-  const existing = await env.PODCAST_BUCKET.get(KEYS.episode(dateKey));
+  if (opts.dryRun) return dryRun(env, dateKey, opts.ideaId);
+
+  const existingObj = await env.PODCAST_BUCKET.get(KEYS.episode(dateKey));
+  const existing = existingObj ? await existingObj.json() : null;
   if (existing && !opts.force) {
-    return { ok: true, skipped: "already generated", date: dateKey, episode: await existing.json() };
+    return { ok: true, skipped: "already generated", date: dateKey, episode: existing };
   }
 
   if (!(await acquireLock(env, dateKey))) {
@@ -129,19 +154,36 @@ export async function runPipeline(env, opts = {}) {
 
   try {
     // 1. Pick the topic. Usage tracked in R2, never in code.
-    const rotation = await readJson(env, KEYS.rotation, { used: [], recentCategories: [] });
-    const { idea, state, cycleReset } = pickIdea(dateKey, rotation);
+    const pool = await loadPool(env);
+    let idea;
+    let state = null;
+    let cycleReset = false;
 
-    // Computed entirely from vetted pool fields - never regenerated by the
-    // model, so the same idea always scores the same (score.js).
+    if (existing) {
+      // A forced re-run regenerates the SAME business. Going back through
+      // the rotation would pick a different idea (this date's idea is
+      // already marked used), swap the topic under a published transcript,
+      // and burn a second pool entry.
+      idea = pool.find((i) => i.id === existing.ideaId);
+      if (!idea) throw new Error(`episode ${dateKey} used idea "${existing.ideaId}", which is no longer in the pool`);
+    } else {
+      const rotation = await readJson(env, KEYS.rotation, { used: [], recentCategories: [] });
+      ({ idea, state, cycleReset } = pickIdea(dateKey, rotation, pool));
+    }
+
+    // Computed entirely from vetted pool fields and the verification record -
+    // never regenerated by the model, so the same idea always scores the
+    // same (score.js).
     const score = scoreIdea(idea);
 
-    // 2. Generate the script. Word count computed in code from real text.
+    // 2. Generate the script, fact-checked against the same grounded
+    // material. Word count computed in code from real text.
     const script = await generateScript(env, idea, dateKey);
 
     // 3. Generate the audio. Speech gets the version with SSML pause tags;
     // the transcript and word count stay on the clean version - a reader
-    // should never see "<break time=...>" in the archived text.
+    // should never see "<break time=...>" in the archived text. Duration is
+    // measured from the MP3 that comes back.
     const audio = await narrate(env, script.narrationForSpeech, script.wordCount);
 
     // 4. Optional extras. Must never block the episode.
@@ -156,11 +198,27 @@ export async function runPipeline(env, opts = {}) {
       console.log(`cover art failed for ${dateKey}, shipping without it: ${err.message}`);
     }
 
+    let validationKit = null;
+    try {
+      validationKit = await generateKit(env, idea);
+    } catch (err) {
+      console.log(`validation kit failed for ${dateKey}, shipping without it: ${err.message}`);
+    }
+
+    // The fact-check log is private: it quotes rejected sentences, which
+    // should never be served as if they were part of the brief.
+    try {
+      await writeJson(env, KEYS.review(dateKey), { date: dateKey, ideaId: idea.id, ...script.review });
+    } catch (err) {
+      console.log(`review log write failed for ${dateKey}: ${err.message}`);
+    }
+
     // 5. Write everything. This is the step that has to succeed.
     await env.PODCAST_BUCKET.put(KEYS.audio(dateKey), audio.audio, {
       httpMetadata: { contentType: "audio/mpeg", cacheControl: REVALIDATE }
     });
 
+    const verification = publicVerification(idea);
     const episode = {
       date: dateKey,
       ideaId: idea.id,
@@ -178,10 +236,15 @@ export async function runPipeline(env, opts = {}) {
       sourceNotes: idea.sourceNotes,
       opportunityType: idea.opportunityType,
       score,
+      verification,
+      lastVerified: verification.lastVerified,
+      corrections: existing && Array.isArray(existing.corrections) ? existing.corrections : [],
+      factCheck: { status: factCheckStatus(script.review), model: script.review.model },
       sections: script.sections,
       bearCase: script.sections.bearCase,
       assumptions: script.sections.assumptions,
       verdict: script.sections.verdict,
+      validationKit,
       transcript: script.narration,
       pullQuote: script.sections.pullQuote || idea.thesis,
       tags: script.sections.tags || [],
@@ -189,8 +252,10 @@ export async function runPipeline(env, opts = {}) {
       pitchWordCount: script.pitchWordCount,
       tightened: script.retried,
       overBudget: script.overBudget,
-      durationSeconds: audio.estimatedDurationSeconds,
-      durationLabel: formatDuration(audio.estimatedDurationSeconds),
+      durationSeconds: audio.durationSeconds,
+      durationLabel: formatDuration(audio.durationSeconds),
+      durationMeasured: audio.durationMeasured,
+      durationEstimatedSeconds: audio.estimatedDurationSeconds,
       wordsPerMinuteUsed: Number(env.WORDS_PER_MINUTE || WORDS_PER_MINUTE),
       audioBytes: audio.byteLength,
       audioBlocks: audio.blocks,
@@ -204,41 +269,28 @@ export async function runPipeline(env, opts = {}) {
     await writeJson(env, KEYS.episode(dateKey), episode);
 
     const manifest = await readJson(env, KEYS.manifest, { episodes: [] });
-    const summary = {
-      date: dateKey,
-      title: episode.title,
-      category: episode.category,
-      thesis: episode.thesis,
-      pullQuote: episode.pullQuote,
-      complexity: episode.complexity,
-      capitalTotal: episode.capital.total,
-      durationSeconds: episode.durationSeconds,
-      durationLabel: episode.durationLabel,
-      audioBytes: episode.audioBytes,
-      tags: episode.tags,
-      score: episode.score.overall,
-      band: episode.score.band,
-      opportunityType: episode.opportunityType,
-      verdict: episode.verdict
-    };
+    const summary = manifestSummary(episode);
     const episodes = [summary, ...manifest.episodes.filter((e) => e.date !== dateKey)]
       .sort((a, b) => (a.date < b.date ? 1 : -1))
       .slice(0, MANIFEST_LIMIT);
 
     await writeJson(env, KEYS.manifest, { episodes, updatedAt: new Date().toISOString() });
-    await writeJson(env, KEYS.rotation, state);
+    if (state) await writeJson(env, KEYS.rotation, state);
 
     return {
       ok: true,
       date: dateKey,
+      rerun: Boolean(existing),
       cycleReset,
-      remainingInPool: state.remaining,
+      remainingInPool: state ? state.remaining : null,
       episode: {
         ...summary,
         wordCount: episode.wordCount,
         pitchWordCount: episode.pitchWordCount,
         tightened: episode.tightened,
         overBudget: episode.overBudget,
+        factCheck: episode.factCheck,
+        validationKit: Boolean(validationKit),
         audioUrl: episode.audioUrl,
         artUrl: episode.artUrl,
         generationMs: episode.generationMs
@@ -325,27 +377,53 @@ export default {
     const path = url.pathname;
     const origin = env.PUBLIC_ORIGIN || url.origin;
 
+    // One-tap links from the publish email. Confirmation on GET, action on
+    // POST (admin.js).
+    if (path === "/act") return handleAct(request, env);
+
+    // Owner API for /admin.html and scripts (session cookie or Bearer).
+    const adminResponse = await handleAdminApi(request, env, path);
+    if (adminResponse) return adminResponse;
+
+    // Listener pursue / watch / pass.
+    const reactionResponse = await handleReactions(request, env, path);
+    if (reactionResponse) return reactionResponse;
+
     // Manual trigger. Bearer only - never a query-string secret.
     if (path === "/refresh") {
-      if (!authorized(request, env)) {
+      if (!bearerOk(request, env)) {
         return json({ ok: false, error: "unauthorized" }, 401);
       }
       const asOf = url.searchParams.get("asOf");
       const force = url.searchParams.get("force") === "1";
-      const result = await runPipeline(env, { dateKey: asOf || undefined, force });
+      const dryRun = url.searchParams.get("dryRun") === "1";
+      const ideaId = url.searchParams.get("idea") || undefined;
+      const result = await runPipeline(env, { dateKey: asOf || undefined, force, dryRun, ideaId });
       return json(result, result.ok ? 200 : 500);
     }
 
     // Diagnostics. Also authed - it reveals rotation state.
     if (path === "/status") {
-      if (!authorized(request, env)) return json({ ok: false, error: "unauthorized" }, 401);
+      if (!bearerOk(request, env)) return json({ ok: false, error: "unauthorized" }, 401);
       const rotation = await readJson(env, KEYS.rotation, { used: [], recentCategories: [] });
       const manifest = await readJson(env, KEYS.manifest, { episodes: [] });
+      const pool = await loadPool(env);
+      const eligible = pool.filter(isSelectable);
+      const used = new Set(rotation.used || []);
+      const byStatus = {};
+      for (const i of pool) {
+        const st = (i.verification && i.verification.status) || "unverified";
+        byStatus[st] = (byStatus[st] || 0) + 1;
+      }
       return json({
         ok: true,
-        poolSize: IDEAS.length,
-        used: rotation.used.length,
-        remaining: IDEAS.length - rotation.used.length,
+        poolSize: eligible.length,
+        used: eligible.filter((i) => used.has(i.id)).length,
+        remaining: eligible.filter((i) => !used.has(i.id)).length,
+        poolByStatus: byStatus,
+        notSelectable: pool
+          .filter((i) => !isSelectable(i))
+          .map((i) => ({ id: i.id, status: i.verification ? i.verification.status : "unverified" })),
         recentCategories: rotation.recentCategories,
         episodeCount: manifest.episodes.length,
         latest: manifest.episodes[0] || null,
@@ -382,6 +460,19 @@ export default {
       });
     }
 
+    const kitMatch = /^\/kit\/(\d{4}-\d{2}-\d{2})\.md$/.exec(path);
+    if (kitMatch) {
+      const ep = await readJson(env, KEYS.episode(kitMatch[1]), null);
+      if (!ep || !ep.validationKit) return new Response("Not found", { status: 404 });
+      return new Response(kitMarkdown({ ...ep, origin }), {
+        headers: {
+          "content-type": "text/markdown; charset=utf-8",
+          "content-disposition": `inline; filename="innovation-daily-kit-${ep.date}.md"`,
+          "cache-control": REVALIDATE
+        }
+      });
+    }
+
     if (path === "/transcript.txt" || /^\/transcript\/\d{4}-\d{2}-\d{2}\.txt$/.test(path)) {
       const d = path.split("/").pop().replace(".txt", "");
       const ep = await readJson(env, KEYS.episode(d), null);
@@ -407,7 +498,7 @@ export default {
         const assetRes = await env.ASSETS.fetch(new Request(`${origin}/`, request));
         let html = await assetRes.text();
         const title = `${ep.title} - Innovation Daily`;
-        const desc = `${ep.pullQuote || ep.thesis} Score ${ep.score?.overall ?? "-"} of 100, ${ep.capital.total.toLocaleString("en-US")} dollars to start.`;
+        const desc = `${ep.pullQuote || ep.thesis} Score ${ep.score?.overall ?? "-"} of 100. About ${ep.capital.total.toLocaleString("en-US")} dollars to start (estimate).`;
         const pageUrl = `${origin}/${ep.date}`;
 
         html = html
@@ -438,6 +529,19 @@ export default {
       (async () => {
         const result = await runPipeline(env);
         console.log(`cron run: ${JSON.stringify(result)}`);
+
+        // Seeds, kits for older episodes, due 90-day revisits. Never
+        // touches the episode above, and never throws out of here.
+        const maintenance = await runMaintenance(env);
+        console.log(`maintenance: ${JSON.stringify(maintenance)}`);
+
+        try {
+          const queue = await reviewQueue(env);
+          const sent = await notifyOwner(env, env.PUBLIC_ORIGIN, result, maintenance, queue);
+          console.log(`notify: ${JSON.stringify(sent)}`);
+        } catch (err) {
+          console.log(`notify failed: ${err.stack || err.message}`);
+        }
       })()
     );
   }

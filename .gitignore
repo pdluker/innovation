@@ -9,3 +9,9 @@ node_modules/
 .env
 
 npm-debug.log*
+
+# archive migration working files (scripts/backfill-archive.mjs)
+.backfill/
+
+# Local data stores written by Claude Code plugins - machine-specific, may hold document text
+.claude/data/

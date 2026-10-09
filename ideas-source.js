@@ -37,7 +37,7 @@ export const IDEAS = [
     category: "AI Services",
     thesis: "A two-person shop that turns a small business's win themes into compliant federal proposal volumes, with Claude doing the compliance matrix and first-draft narrative.",
     customer: "8(a), SDVOSB and small-business primes bidding $2M-$50M task orders who cannot carry a full-time capture team.",
-    need: "Federal proposal work is the highest-priced writing labor in the country and it is still done by hourly consultants at $150-$250 an hour. The compliance matrix, the shred, the Section L/M cross-walk, and the first-pass narrative are exactly the tasks a language model does well. The buyer already has a budget line for this and already accepts contractor labor.",
+    need: "Federal proposal work is still bought by the hour from consultants, or pulled from a small firm's best billable people. The compliance matrix, the shred, the Section L/M cross-walk, and the first-pass narrative are exactly the tasks a language model does well. The buyer already has a budget line for this and already accepts contractor labor.",
     competitors: ["Deltek GovWin IQ", "Unanet ProposalAI", "AutogenAI", "Rohirrim", "Shipley Associates (traditional consulting)"],
     complexity: 2,
     complexityWhy: "No product to build - the hard part is the first three references, not the technology.",
@@ -54,7 +54,7 @@ export const IDEAS = [
     ],
     claudeRole: "Section L/M shredding, compliance matrix generation, past-performance rewriting to the current solicitation's evaluation language, and consistency checking across volumes.",
     moat: "Domain credibility and cleared reference customers. The workflow is copyable; the reference list is not.",
-    sourceNotes: "Federal proposal consulting rates and the Shipley model are widely published; APMP salary surveys support the labor-cost baseline."
+    sourceNotes: "Payscale lists APMP-certified proposal managers at about $71k-$143k, the labor-cost baseline. AutogenAI and Rohirrim funding rounds establish the software category."
   },
   {
     id: "claims-denial-appeals",
@@ -65,7 +65,7 @@ export const IDEAS = [
     category: "Vertical AI",
     thesis: "Flat-fee appeals of denied medical claims for small practices, where the appeal letter is drafted against the payer's own published coverage policy.",
     customer: "Independent practices and small specialty groups with 2-15 providers and no dedicated denials analyst.",
-    need: "A meaningful share of denied claims are never appealed, not because the appeal would fail but because nobody has an hour to write it. The payer's medical policy is a public document and the denial reason code tells you which paragraph to argue against. That is a structured writing problem with a direct dollar recovery attached.",
+    need: "HFMA reports that up to 65 percent of denied claims are never resubmitted, and a small practice rarely has anyone whose job is to work them. The payer's medical policy is a public document and the denial reason code tells you which paragraph to argue against. That is a structured writing problem with a direct dollar recovery attached.",
     competitors: ["Waystar", "Availity", "Infinitus", "Adonis", "Candid Health"],
     complexity: 4,
     complexityWhy: "HIPAA, a BAA with every client, and PHI handling raise the floor well above a normal services business.",
@@ -83,7 +83,7 @@ export const IDEAS = [
     ],
     claudeRole: "Mapping denial reason codes to the specific policy paragraph, drafting the appeal argument, and tracking which arguments actually get overturned.",
     moat: "The overturn-rate dataset per payer per denial code. It compounds and it is not public.",
-    sourceNotes: "KFF and CMS publish denial and appeal-rate data for marketplace plans; payer medical policies are public."
+    sourceNotes: "HFMA reports up to 65 percent of denied claims are never resubmitted; the Change Healthcare Denials Index put initial denials at 12 percent of claims in 2022. Payer medical policies are public."
   },
   {
     id: "permit-expediter",
@@ -94,7 +94,7 @@ export const IDEAS = [
     category: "Vertical AI",
     thesis: "You handle the permit package - drawings review, code cross-reference, submittal, and correction cycles - for remodelers in one metro.",
     customer: "Residential general contractors and remodelers doing 20-100 jobs a year in a single jurisdiction.",
-    need: "Permit correction cycles are the single most common schedule killer on a residential remodel, and most of the corrections are clerical. Municipal codes are published, the submittal checklists are published, and the reviewer's comments are formulaic. A contractor will happily pay a fixed fee to never think about it.",
+    need: "Permit correction cycles stall residential remodels, and many correction comments repeat from job to job. Municipal codes are published, the submittal checklists are published, and the reviewer's comments are formulaic. A contractor will happily pay a fixed fee to never think about it.",
     competitors: ["PermitFlow", "Pulley", "GreenLite", "Local expediting firms (fragmented, offline)"],
     complexity: 2,
     complexityWhy: "One jurisdiction, public rules, no PHI or money movement. The constraint is your own bandwidth.",
@@ -111,7 +111,7 @@ export const IDEAS = [
     ],
     claudeRole: "Cross-referencing submitted drawings against the local amendments to the IRC/IBC, drafting correction responses, and maintaining the per-reviewer comment history.",
     moat: "Relationships with the plan reviewers in one building department. Deeply local, deliberately unscalable, and that is the point.",
-    sourceNotes: "ICC model codes and municipal amendments are public; PermitFlow and Pulley funding rounds establish the category."
+    sourceNotes: "ICC model codes and municipal amendments are public; PermitFlow's $54M Series B and Pulley's seed round establish the category."
   },
   {
     id: "board-packet-service",
@@ -123,7 +123,7 @@ export const IDEAS = [
     thesis: "Monthly retainer to turn a nonprofit's messy financials and program updates into a real board packet, plus compliant minutes from the recording.",
     customer: "Nonprofits with $1M-$20M budgets, one part-time finance person, and a board that expects governance quality they are not resourced for.",
     need: "Board packets are a recurring, deadline-driven document assembly job that nobody on staff wants. The inputs are the same every month. The failure mode - a board that cannot see the numbers clearly - is a real governance risk that executive directors already worry about.",
-    competitors: ["BoardEffect", "Boardable", "OnBoard", "Diligent Community"],
+    competitors: ["BoardEffect (Diligent)", "Boardable", "OnBoard", "Fractional nonprofit bookkeepers and CFO firms"],
     complexity: 1,
     complexityWhy: "Recurring document work with no regulated data and no integrations required on day one.",
     capital: { total: 11000, lines: [
@@ -139,7 +139,7 @@ export const IDEAS = [
     ],
     claudeRole: "Financial narrative from raw statements, minutes from recordings, consistency checks against the prior packet, and drafting the ED's report.",
     moat: "Executive directors talk to each other constantly. This is a referral business with almost no churn.",
-    sourceNotes: "Candid and the National Council of Nonprofits publish sector staffing and budget distributions."
+    sourceNotes: "National Council of Nonprofits: 97 percent of nonprofits run on under $5 million a year, so the $1M-$20M target is a narrow slice of the sector."
   },
   {
     id: "spec-to-takeoff",
@@ -150,7 +150,7 @@ export const IDEAS = [
     category: "Vertical AI",
     thesis: "Turn a bid set of drawings and specs into a quantity takeoff and a priced bid for one trade - electrical, mechanical, or low-voltage.",
     customer: "Specialty subs doing $3M-$30M a year who bid more than they win and estimate at night.",
-    need: "Estimating is the bottleneck on every subcontractor's growth. They pass on bids they would win because there are not enough estimator-hours in the week. Drawings and specs are structured documents, and the takeoff step is pattern recognition against a known assembly list.",
+    need: "Estimating is the bottleneck on every subcontractor's growth. Estimator hours cap how many bids a sub can chase in a week. Drawings and specs are structured documents, and the takeoff step is pattern recognition against a known assembly list.",
     competitors: ["Togal.AI", "Beam AI", "Trunk Tools", "STACK", "Procore Estimating"],
     complexity: 4,
     complexityWhy: "Drawing interpretation is genuinely hard and a wrong takeoff costs your client real money.",
@@ -168,7 +168,7 @@ export const IDEAS = [
     ],
     claudeRole: "Spec section parsing, assembly identification, exclusions and clarifications language, and the bid cover letter.",
     moat: "The validated variance number against real as-builts in one trade.",
-    sourceNotes: "Togal.AI and Trunk Tools funding rounds establish the category; CFMA publishes subcontractor bid-hit-rate benchmarks."
+    sourceNotes: "Togal.AI and Trunk Tools funding rounds establish the category; CFMA's Benchmarker publishes subcontractor financial ratios."
   },
   {
     id: "lease-abstract",
@@ -179,8 +179,8 @@ export const IDEAS = [
     category: "Data Products",
     thesis: "Convert a PDF lease portfolio into a structured, queryable abstract - critical dates, escalations, options, recovery terms - with a human check on every field.",
     customer: "Regional commercial property managers and small REIT-adjacent owners with 20-300 leases sitting in a shared drive.",
-    need: "Missed renewal options and unbilled CAM recoveries are pure, avoidable revenue loss, and the reason they get missed is that the terms live in scanned PDFs nobody reads. The dollar value of one caught option renewal usually exceeds the annual fee.",
-    competitors: ["VTS", "Prophia", "LeaseQuery (FinQuery)", "Visual Lease", "Yardi"],
+    need: "Missed renewal options and unbilled CAM recoveries are pure, avoidable revenue loss, and the reason they get missed is that the terms live in scanned PDFs nobody reads. One caught option renewal or unbilled recovery can be worth more than the annual fee.",
+    competitors: ["VTS", "Prophia", "FinQuery (formerly LeaseQuery)", "Visual Lease", "Yardi"],
     complexity: 3,
     complexityWhy: "Accuracy expectations are absolute - one wrong escalation date destroys trust in the whole abstract.",
     capital: { total: 39000, lines: [
@@ -196,7 +196,7 @@ export const IDEAS = [
     ],
     claudeRole: "Clause extraction, date and escalation math, non-standard term flagging, and generating the exception report a human actually reviews.",
     moat: "Per-field error rates and a reviewer workflow that gets cheaper as the flagging improves.",
-    sourceNotes: "FinQuery and Visual Lease publish lease-administration error and compliance research; ASC 842 drove the category."
+    sourceNotes: "ASC 842 put operating leases on the balance sheet and created the lease-administration software category. No published figure for missed options or CAM leakage was found - treat the dollar case as an assumption to test."
   },
   {
     id: "grant-compliance-reporting",
@@ -207,8 +207,8 @@ export const IDEAS = [
     category: "AI Services",
     thesis: "You produce the quarterly and closeout reports for small cities and counties drawing down federal grant funds.",
     customer: "Municipalities under 50,000 people with one grants person wearing four other hats.",
-    need: "Grant reporting failures cause clawbacks, and small municipalities routinely leave money undrawn because the reporting burden exceeds their staff capacity. The reporting formats are federally standardized and published. The buyer has an existing, allowable administrative cost line to pay you from.",
-    competitors: ["eCivis (Euna Solutions)", "AmpliFund", "Submittable", "Local grant consultants"],
+    need: "Noncompliance can mean disallowed costs that must be repaid, and GAO has documented that limited staff capacity keeps small jurisdictions from fully accessing and managing federal grants. The reporting formats are federally standardized and published. The buyer has an existing, allowable administrative cost line to pay you from.",
+    competitors: ["Euna Grants (eCivis and AmpliFund)", "Submittable", "Local grant consultants"],
     complexity: 2,
     complexityWhy: "Standardized formats and a public buyer, but procurement cycles are slow and you must know Uniform Guidance.",
     capital: { total: 26000, lines: [
@@ -224,7 +224,7 @@ export const IDEAS = [
     ],
     claudeRole: "Narrative report drafting from expenditure data, allowability checking against 2 CFR 200, and closeout package assembly.",
     moat: "One state's grant landscape plus a council-of-governments relationship covers dozens of towns.",
-    sourceNotes: "2 CFR 200 (Uniform Guidance) is public; GAO reports document small-jurisdiction grant capacity gaps."
+    sourceNotes: "2 CFR 200 (Uniform Guidance) is public, including the noncompliance remedies in 200.339; GAO-23-106797 documents grant-capacity gaps."
   },
   {
     id: "shopify-catalog-ops",
@@ -236,7 +236,7 @@ export const IDEAS = [
     thesis: "Ongoing retainer to keep a large catalog clean - descriptions, attributes, variant hygiene, category mapping, marketplace feeds.",
     customer: "Brands and distributors with 5,000-500,000 SKUs selling across their own store plus two or more marketplaces.",
     need: "Catalog quality directly drives conversion and marketplace search placement, and it decays continuously as SKUs are added by whoever happens to add them. Nobody owns it. It is high-volume structured text work with a measurable revenue tie.",
-    competitors: ["Akeneo", "Salsify", "Productsup", "Feedonomics (BigCommerce)", "Jasper"],
+    competitors: ["Akeneo", "Salsify", "Productsup", "Feedonomics (Commerce, formerly BigCommerce)", "Jasper"],
     complexity: 2,
     complexityWhy: "Volume is the challenge, not difficulty. The work is measurable and the failure modes are cheap.",
     capital: { total: 19000, lines: [
@@ -252,7 +252,7 @@ export const IDEAS = [
     ],
     claudeRole: "Description generation at scale in the brand's voice, attribute normalization, category mapping, and duplicate detection.",
     moat: "Weak on its own. The defensibility is the conversion-lift measurement, so build that from day one.",
-    sourceNotes: "Salsify and Akeneo publish product-content-to-conversion research; marketplace listing quality rules are public."
+    sourceNotes: "Salsify's 2025 consumer research: 54 percent of shoppers abandoned a sale over inconsistent product content across channels. Marketplace listing quality rules are public."
   },
   {
     id: "clinical-trial-feasibility",
@@ -263,8 +263,8 @@ export const IDEAS = [
     category: "Vertical AI",
     thesis: "Screen incoming trial protocols against a research site's actual patient population to tell them, fast, which studies they can realistically enroll.",
     customer: "Independent and hospital-affiliated clinical research sites that receive more protocol invitations than they can evaluate.",
-    need: "Sites lose money on trials they should never have accepted, because feasibility assessment is a manual read of a 100-page protocol against an EHR population they can only estimate. Under-enrollment is the single most common reason a trial site loses money.",
-    competitors: ["Medidata", "Veeva Site Vault", "TriNetX", "Curebase", "Advarra"],
+    need: "Sites lose money on trials they should never have accepted, because feasibility assessment is a manual read of a 100-page protocol against an EHR population they can only estimate. Tufts CSDD found that about one site in ten enrolls no patients and about four in ten under-enroll.",
+    competitors: ["Medidata", "Veeva SiteVault", "TriNetX", "Curebase", "Advarra"],
     complexity: 5,
     complexityWhy: "PHI, IRB context, and a buyer who will not move on a vendor without institutional review.",
     capital: { total: 88000, lines: [
@@ -281,7 +281,7 @@ export const IDEAS = [
     ],
     claudeRole: "Inclusion/exclusion criteria extraction from the protocol, mapping to structured EHR concepts, and the feasibility memo itself.",
     moat: "Institutional trust plus the site's own historical enrollment-accuracy record.",
-    sourceNotes: "Tufts CSDD publishes site enrollment-failure rates; ClinicalTrials.gov protocols are public."
+    sourceNotes: "Tufts CSDD publishes site enrollment-performance research; ClinicalTrials.gov protocols are public."
   },
   {
     id: "hoa-management-back-office",
@@ -293,7 +293,7 @@ export const IDEAS = [
     thesis: "Minutes, violation letters, vendor bid comparison, reserve-study summaries and owner correspondence for HOAs that refuse to hire a management company.",
     customer: "Self-managed associations of 50-400 doors, run by volunteer boards who are drowning in paperwork.",
     need: "Full-service HOA management is priced per door and often unwanted - boards want to keep control. But the correspondence, minutes and violation workflow is real, recurring, and legally sensitive work that volunteers do badly. There is a middle tier nobody serves well.",
-    competitors: ["AppFolio", "Buildium", "Vantaca", "HOA management companies (full-service)"],
+    competitors: ["AppFolio", "Buildium (RealPage)", "Vantaca", "HOA management companies (full-service)"],
     complexity: 2,
     complexityWhy: "Low technical risk, but violation letters have legal weight - templates need attorney review once.",
     capital: { total: 16000, lines: [
@@ -309,14 +309,14 @@ export const IDEAS = [
     ],
     claudeRole: "Meeting minutes, violation and cure letters from the CC&Rs, bid comparison summaries, and the annual meeting packet.",
     moat: "State-specific CC&R fluency and a board-to-board referral loop within one metro.",
-    sourceNotes: "Foundation for Community Association Research publishes association counts and self-management rates."
+    sourceNotes: "The Foundation for Community Association Research estimates 30 to 40 percent of associations are self-managed."
   },
   {
     id: "expert-witness-prep",
     aiLeverage: 4, // 1-5, how much of the work is genuinely LLM-native
     defensibility: 3, // 1-5, honest read of the "moat" field above
     opportunityType: "build", // "build" | "buy" | "invest" - all pool entries are build-it-yourself by design
-    title: "Expert Witness Report Support for Solo Litigators",
+    title: "Deposition and Exhibit Support for Solo Litigators",
     category: "AI Services",
     thesis: "Deposition digests, exhibit indexes, and timeline reconstruction for solo and two-partner litigation firms.",
     customer: "Solo litigators and small firms handling document-heavy cases without paralegal depth.",
@@ -337,7 +337,7 @@ export const IDEAS = [
     ],
     claudeRole: "Deposition digesting with cite-to-page accuracy, timeline reconstruction across exhibits, and inconsistency flagging between witnesses.",
     moat: "Format fit within one practice niche plus a bar-association referral position.",
-    sourceNotes: "ABA legal technology surveys document small-firm support-staff constraints."
+    sourceNotes: "ABA's 2024 Solo and Small Firm TechReport documents the resource constraints small firms work under."
   },
   {
     id: "manufacturing-work-instructions",
@@ -349,7 +349,7 @@ export const IDEAS = [
     thesis: "Turn tribal knowledge and 1990s Word documents into current, photo-illustrated, audit-ready work instructions.",
     customer: "Contract manufacturers and job shops with 20-200 employees facing an ISO or AS9100 audit, or a retirement wave.",
     need: "The person who knows how the machine actually runs is retiring, and the written instruction is either wrong or does not exist. This is simultaneously a quality-audit problem, a training problem, and a continuity problem, and it has a hard deadline attached whenever the audit is scheduled.",
-    competitors: ["Tulip Interfaces", "Dozuki", "Augmentir", "VKS", "SafetyCulture"],
+    competitors: ["Tulip Interfaces", "Dozuki", "Augmentir", "VKS", "Mitti (formerly SafetyCulture)"],
     complexity: 2,
     complexityWhy: "The work is on-site interviews and document production - low technical risk, high travel.",
     capital: { total: 24000, lines: [
@@ -365,7 +365,7 @@ export const IDEAS = [
     ],
     claudeRole: "Turning interview transcripts into structured instructions, mapping them to the relevant ISO/AS9100 clause, and maintaining revision control language.",
     moat: "Local manufacturing associations are tight networks. One clean audit result sells the next five shops.",
-    sourceNotes: "NIST MEP publishes small-manufacturer workforce and documentation gap research."
+    sourceNotes: "NIST MEP documents the aging-workforce and retirement pressure on small manufacturers."
   },
   {
     id: "utility-bill-audit",
@@ -376,7 +376,7 @@ export const IDEAS = [
     category: "Data Products",
     thesis: "Contingency-fee audit of utility, telecom and waste invoices across a company's sites, recovering billing errors and dead accounts.",
     customer: "Franchise groups, restaurant groups, clinics and retailers with 10-200 locations.",
-    need: "Multi-site invoice errors persist for years because no single person sees all the bills. Rate schedules are public, tariffs are public, and the errors are systematic - wrong rate class, meters on closed locations, services billed after disconnect. The client pays nothing unless you find money.",
+    need: "Multi-site invoice errors persist for years because no single person sees all the bills. Investor-owned utility tariffs are public, and the common errors repeat - wrong rate class, meters on closed locations, services billed after disconnect. The client pays nothing unless you find money.",
     competitors: ["Cass Information Systems", "Tangoe", "Schneider Electric Resource Advisor", "Local contingency auditors"],
     complexity: 2,
     complexityWhy: "Contingency pricing removes the sales objection entirely; the constraint is getting document access.",
@@ -393,7 +393,7 @@ export const IDEAS = [
     ],
     claudeRole: "Invoice parsing across dozens of formats, rate-class comparison against published tariffs, and anomaly detection across sites.",
     moat: "Tariff libraries per territory plus a track record that makes the contingency contract easy to sign.",
-    sourceNotes: "State public utility commissions publish all tariff schedules; the contingency audit model is long-established."
+    sourceNotes: "Investor-owned utilities file tariffs with state commissions, which publish them (Missouri PSC's EFIS, for example); the contingency audit model is long-established."
   },
   {
     id: "curriculum-alignment",
@@ -405,7 +405,7 @@ export const IDEAS = [
     thesis: "Produce accreditation-ready curriculum maps, scope-and-sequence documents and standards alignment for schools facing a review cycle.",
     customer: "Private and charter schools in an accreditation year with no curriculum director on staff.",
     need: "Accreditation review demands documentation that reflects what teachers actually do, and teachers do not have the hours to write it. The standards frameworks are public, the accreditation rubrics are public, and the deadline is fixed and known years in advance.",
-    competitors: ["Chalk (Atlas)", "Faria Education (ManageBac)", "Otus", "Independent accreditation consultants"],
+    competitors: ["Faria Education Group (Atlas, ManageBac)", "Otus", "Independent accreditation consultants"],
     complexity: 1,
     complexityWhy: "Document production against published rubrics, with a naturally deadline-driven buyer.",
     capital: { total: 13000, lines: [
@@ -421,7 +421,7 @@ export const IDEAS = [
     ],
     claudeRole: "Mapping teacher-submitted units to standards, generating scope and sequence, and drafting the self-study narrative.",
     moat: "One accrediting body's rubric fluency plus conference presence in a small, well-networked market.",
-    sourceNotes: "Accreditation rubrics from bodies like Cognia and regional associations are published."
+    sourceNotes: "Accreditation standards are published - Cognia's performance standards and rubric, for example."
   },
   {
     id: "restaurant-menu-margin",
@@ -449,7 +449,7 @@ export const IDEAS = [
     ],
     claudeRole: "Invoice line-item extraction, recipe cost recalculation, and writing the plain-language weekly margin note the owner actually reads.",
     moat: "Thin on features. The moat is being the person the owner texts, in one city.",
-    sourceNotes: "National Restaurant Association publishes food-cost volatility and margin data."
+    sourceNotes: "National Restaurant Association: food and beverage ran a median 31 percent of sales for fullservice operators in 2024, and wholesale food prices remain more than 30 percent above early 2020."
   },
   {
     id: "sbir-proposal",
@@ -460,8 +460,8 @@ export const IDEAS = [
     category: "AI Services",
     thesis: "Get technical founders through their first Phase I SBIR - topic matching, commercialization plan, budget justification, and compliance.",
     customer: "Technical founders and small labs who have never applied and would not otherwise try.",
-    need: "SBIR is non-dilutive money that goes unclaimed because the application is procedurally intimidating rather than technically hard. The topics, the solicitation schedules and the evaluation criteria are all public. First-time applicant success rates rise sharply with experienced help.",
-    competitors: ["EVERSANA (grant consulting)", "Freelance SBIR consultants", "University tech transfer offices", "BBCetc"],
+    need: "SBIR is non-dilutive money that goes unclaimed because the application is procedurally intimidating rather than technically hard. The topics, the solicitation schedules and the evaluation criteria are all public.",
+    competitors: ["BBCetc", "Granted AI", "TurboSBIR", "Freelance SBIR consultants", "University tech transfer offices"],
     complexity: 2,
     complexityWhy: "Public rules, motivated buyers, and long solicitation cycles that let you plan capacity.",
     capital: { total: 18000, lines: [
@@ -477,7 +477,7 @@ export const IDEAS = [
     ],
     claudeRole: "Topic matching against the solicitation, commercialization plan drafting, budget justification narrative, and compliance checking.",
     moat: "Award rate by agency, published honestly. It is the only credential that matters in this market.",
-    sourceNotes: "SBIR.gov publishes all solicitations, awards and historical success rates."
+    sourceNotes: "SBIR.gov publishes solicitations and award data."
   },
   {
     id: "safety-program-docs",
@@ -488,8 +488,8 @@ export const IDEAS = [
     category: "AI Services",
     thesis: "Written safety programs, job hazard analyses and toolbox talks that satisfy general-contractor prequalification requirements.",
     customer: "Subcontractors being asked for a written safety program to get on a general contractor's bid list.",
-    need: "Being blocked from a bid list for missing documentation is an immediate, quantified revenue loss - and the requesting GC has already told the sub exactly what is missing. The standards are federal and published, and the document set is largely templatable per trade.",
-    competitors: ["KPA", "SafetyCulture", "Avetta / ISNetworld (the prequalification platforms themselves)", "Local safety consultants"],
+    need: "Being blocked from a bid list for missing documentation is an immediate, quantified revenue loss - and the requesting GC has already told the sub exactly what is missing. The standards are federal and published, and the document set templates well by trade - though it has to be tailored to each contractor's actual operations.",
+    competitors: ["Novara (formerly KPA Flex)", "Mitti (formerly SafetyCulture)", "Avetta / ISNetworld (the prequalification platforms themselves)", "Local safety consultants"],
     complexity: 1,
     complexityWhy: "Templated documents against public standards with a buyer under immediate commercial pressure.",
     capital: { total: 12000, lines: [
@@ -505,7 +505,7 @@ export const IDEAS = [
     ],
     claudeRole: "Program drafting against the applicable OSHA standard, JHAs by task, and the ongoing toolbox-talk calendar.",
     moat: "Trade-specific template depth and a recurring annual update relationship.",
-    sourceNotes: "OSHA standards are public; ISNetworld and Avetta publish their prequalification document requirements."
+    sourceNotes: "OSHA standards are public; Avetta and ISNetworld require a written health and safety program for prequalification."
   },
   {
     id: "estate-inventory",
@@ -544,8 +544,8 @@ export const IDEAS = [
     category: "AI Ops",
     thesis: "Every webinar, podcast and conference talk a firm records becomes a newsletter, a set of posts, a landing page and a clip reel.",
     customer: "Professional services firms - consultancies, agencies, boutique banks - that produce good spoken content and publish almost none of it.",
-    need: "These firms already record more expert content than they publish, and the partner who recorded it will never repurpose it. The raw material exists, the brand voice is established, and the marketing budget is already allocated to content nobody is producing.",
-    competitors: ["Castmagic", "Opus Clip", "Descript", "Jasper", "Traditional content agencies"],
+    need: "These firms already record more expert content than they publish, and the partner who recorded it will never repurpose it. The raw material exists, the brand voice is established, and content budgets are growing - nearly half of B2B marketers expect them to rise in 2026.",
+    competitors: ["Castmagic", "OpusClip", "Descript", "Jasper", "Traditional content agencies"],
     complexity: 1,
     complexityWhy: "Tooling is commoditized; you are selling the editorial judgment and the consistency, not the transcription.",
     capital: { total: 14000, lines: [
@@ -561,7 +561,7 @@ export const IDEAS = [
     ],
     claudeRole: "Voice-matched drafting from transcripts, editorial selection of what is worth publishing, and channel-specific formatting.",
     moat: "Weak technically. Compete on taste and on being narrow to one professional vertical.",
-    sourceNotes: "Content marketing spend and production-gap data are published annually by CMI."
+    sourceNotes: "Content Marketing Institute's 2026 B2B research: 46 percent of B2B marketers expect content budgets to rise."
   },
   {
     id: "insurance-agency-renewal",
@@ -573,7 +573,7 @@ export const IDEAS = [
     thesis: "Pre-renewal analysis for commercial insurance books - coverage gaps, exposure changes, and the talking points the producer needs before the call.",
     customer: "Independent P&C agencies with 500-5,000 commercial accounts and producers who prep renewals the morning of.",
     need: "Renewal retention is the entire economics of an agency, and the difference between keeping and losing an account is often whether the producer noticed the client's exposure changed. The policy documents are structured, the prior year is on file, and the renewal date is known 12 months in advance.",
-    competitors: ["Applied Systems", "Vertafore", "Indio (Applied Epic)", "Broker Buddha", "Sixfold"],
+    competitors: ["Applied Systems (Applied Epic, Indio)", "Vertafore", "Broker Buddha (Acturis)", "Sixfold"],
     complexity: 3,
     complexityWhy: "Agency management system integrations are the real work, and carriers are conservative about data handling.",
     capital: { total: 44000, lines: [
@@ -589,7 +589,7 @@ export const IDEAS = [
     ],
     claudeRole: "Policy comparison year over year, gap identification against the client's operations, and drafting the producer's call brief.",
     moat: "AMS integration depth plus measured retention improvement in one agency network.",
-    sourceNotes: "Reagan Consulting and IIABA publish agency retention benchmarks."
+    sourceNotes: "Big I and Reagan Consulting Best Practices Study: top agencies renewed 92.9 to 97.7 percent of prior-year revenue."
   },
   {
     id: "translation-localization-niche",
@@ -617,7 +617,7 @@ export const IDEAS = [
     ],
     claudeRole: "First-pass translation, terminology consistency against the client's glossary, and preparing the reviewer's diff rather than raw text.",
     moat: "Certified reviewer relationships in a narrow regime plus an accumulated client terminology base.",
-    sourceNotes: "EU MDR and IVDR language requirements are published; CSA Research tracks localization pricing."
+    sourceNotes: "EU MDR Article 10(11) sets device-information language requirements per member state; CSA Research tracks the shift away from per-word pricing."
   },
   {
     id: "municipal-records-request",
@@ -646,7 +646,7 @@ export const IDEAS = [
     ],
     claudeRole: "Responsive-document identification, proposing redactions against the statutory exemption list, and drafting the response letter with exemption citations.",
     moat: "One state's public-records statute fluency and a clean audit record.",
-    sourceNotes: "State public records statutes and exemption lists are published; MuckRock tracks request volumes."
+    sourceNotes: "State public records statutes and exemption lists are published. Federal FOIA requests passed 1.5 million in FY2024, and San Antonio alone handled 86,000 records requests in 2025."
   },
   {
     id: "franchise-compliance-audit",
@@ -658,7 +658,7 @@ export const IDEAS = [
     thesis: "Review franchisee-submitted photos, local marketing and site documentation against the brand standards manual, at scale.",
     customer: "Franchisors with 50-1,000 units whose field consultants can only visit each location a few times a year.",
     need: "Brand standards enforcement is the franchisor's core obligation and it is done by too few people traveling too much. Franchisees already submit photos and marketing for approval. The standards manual is the rulebook and it is written down.",
-    competitors: ["FranConnect", "Naranga", "Zenput (Crunchtime)", "SafetyCulture"],
+    competitors: ["FranConnect", "Naranga", "Zenput (CrunchTime)", "Mitti (formerly SafetyCulture)"],
     complexity: 3,
     complexityWhy: "Image evaluation is workable but the franchisor relationship is political - you are automating enforcement.",
     capital: { total: 33000, lines: [
@@ -674,7 +674,7 @@ export const IDEAS = [
     ],
     claudeRole: "Photo-to-standard comparison, drafting the corrective-action notice in brand voice, and trend reporting across units.",
     moat: "The standards manual encoded per brand, which becomes switching cost once it is tuned.",
-    sourceNotes: "IFA publishes franchise system counts and field-support ratios."
+    sourceNotes: "IFA forecasts about 845,000 U.S. franchise establishments in 2026."
   },
   {
     id: "ag-input-agronomy",
@@ -685,8 +685,8 @@ export const IDEAS = [
     category: "Physical + AI",
     thesis: "Season-by-season review of seed, fertilizer and chemical purchases against agronomic need and local trial data.",
     customer: "Independent row-crop operations of 1,000-10,000 acres who buy inputs from a retailer that also advises them.",
-    need: "The person recommending the inputs is usually the person selling them, and farmers know it. Land-grant university trial data and soil test results are public and objective, but nobody sits between the farmer and the retailer with an independent read. Input cost is the largest controllable line on the operation.",
-    competitors: ["Farmers Business Network", "Granular (Corteva)", "AgriEdge (Syngenta)", "Independent crop consultants"],
+    need: "The person recommending the inputs is usually the person selling them, and farmers know it. Land-grant university trial data and soil test results are public and objective, but nobody sits between the farmer and the retailer with an independent read. Fertilizer alone ran 33 to 44 percent of corn operating costs from 2010 to 2019.",
+    competitors: ["Farmers Business Network", "Granular Insights (Corteva)", "AgriEdge Excelsior (Syngenta)", "Independent crop consultants"],
     complexity: 3,
     complexityWhy: "Agronomy is real expertise and the trust cycle is a full growing season long.",
     capital: { total: 41000, lines: [
@@ -702,7 +702,7 @@ export const IDEAS = [
     ],
     claudeRole: "Synthesizing university extension trial data against a farm's soil tests and history, and writing the plain-language recommendation.",
     moat: "Independence itself, plus a local yield-outcome record that accumulates one season at a time.",
-    sourceNotes: "Land-grant extension services publish variety trial data; USDA ERS publishes input cost shares."
+    sourceNotes: "Land-grant extension services publish variety trial data; USDA ERS publishes cost-of-production data by input."
   },
   {
     id: "credentialing-service",
@@ -714,7 +714,7 @@ export const IDEAS = [
     thesis: "Get clinicians credentialed and enrolled with payers faster, tracking every application through a notoriously opaque process.",
     customer: "Growing practices, telehealth groups and locums agencies adding providers who cannot bill until enrollment clears.",
     need: "Every day a provider is not credentialed is a day of unbillable revenue, and the process is a months-long document chase across a dozen payers with no visibility. It is form-filling and follow-up at scale, with a directly quantifiable cost of delay.",
-    competitors: ["Medallion", "Verifiable", "CAQH ProView", "Symplr", "Credentialing outsourcers"],
+    competitors: ["Medallion", "Verifiable", "CAQH Provider Data Portal (DataSpring)", "Symplr", "Credentialing outsourcers"],
     complexity: 3,
     complexityWhy: "Well-funded competition exists, but the market is enormous and the incumbents ignore small groups.",
     capital: { total: 37000, lines: [
@@ -730,7 +730,7 @@ export const IDEAS = [
     ],
     claudeRole: "Application population from provider documents, requirement diffing across payers, and drafting the follow-up correspondence that unsticks stalled applications.",
     moat: "Payer-specific timelines and contact knowledge, which is genuinely tribal and genuinely valuable.",
-    sourceNotes: "CAQH and MGMA publish credentialing timelines and revenue-delay costs."
+    sourceNotes: "MGMA: 32 percent of medical groups report credentialing backlogs, and commercial payers can take up to 100 days to set an effective date."
   },
   {
     id: "trade-school-admissions",
@@ -770,7 +770,7 @@ export const IDEAS = [
     thesis: "Find and file the warranty claims, manufacturer rebates and service credits that fleet and equipment owners never claim.",
     customer: "Trucking fleets, landscaping companies, equipment rental yards and property managers with heavy repair spend.",
     need: "Repairs get paid out of pocket that a warranty or a rebate program would have covered, because matching a repair invoice to a coverage term requires reading both. That is a document-matching problem with cash on the other side, and the client risks nothing under contingency pricing.",
-    competitors: ["Fleetio", "Dossier", "Warranty recovery contingency firms", "OEM dealer service departments"],
+    competitors: ["Fleetio", "Dossier (now AMCS Fleet Maintenance)", "Warranty recovery contingency firms", "OEM dealer service departments"],
     complexity: 2,
     complexityWhy: "Contingency pricing makes selling easy; the work is document access and OEM claim procedure.",
     capital: { total: 20000, lines: [
@@ -786,7 +786,7 @@ export const IDEAS = [
     ],
     claudeRole: "Matching repair line items to warranty coverage terms and rebate program rules, then assembling the claim package.",
     moat: "OEM claim-procedure knowledge per equipment category and a recovery track record.",
-    sourceNotes: "OEM warranty terms are published in owner documentation; ATA publishes fleet maintenance cost benchmarks."
+    sourceNotes: "OEM warranty terms are published in owner documentation; ATRI's Operational Costs of Trucking puts repair and maintenance at 21.5 cents a mile in 2025."
   },
   {
     id: "church-nonprofit-media",
@@ -814,7 +814,7 @@ export const IDEAS = [
     ],
     claudeRole: "Summarization, newsletter drafting in the organization's voice, clip selection, and accessibility transcript cleanup.",
     moat: "Per-client marginal cost near zero plus a dense referral network. Volume business, thin per unit.",
-    sourceNotes: "Faith Communities Today and Lake Institute publish congregation size and media-spend data."
+    sourceNotes: "Faith Communities Today (2020): median weekly attendance is 65, and only about 10 percent of congregations draw more than 250 - the target segment is small."
   },
   {
     id: "vendor-security-questionnaire",
@@ -826,7 +826,7 @@ export const IDEAS = [
     thesis: "Answer the security and procurement questionnaires that stall enterprise deals, from a maintained evidence library.",
     customer: "Series A to C B2B software companies whose deals stall for weeks in vendor security review.",
     need: "A stalled security questionnaire is a stalled deal with a revenue number attached, and it lands on an engineer or a founder who has no time for it. The questions repeat heavily across customers, and the answers derive from a policy set the company already has.",
-    competitors: ["Vanta", "Drata", "SafeBase", "Conveyor", "Whistic"],
+    competitors: ["Vanta", "Drata (acquired SafeBase in 2025)", "Conveyor", "Whistic"],
     complexity: 2,
     complexityWhy: "Crowded category, but the incumbents sell software while many companies want the work simply done for them.",
     capital: { total: 25000, lines: [
@@ -842,19 +842,19 @@ export const IDEAS = [
     ],
     claudeRole: "Mapping incoming questions to the maintained evidence library, drafting answers with the right caveats, and flagging genuine gaps for remediation.",
     moat: "The client's own maintained evidence library, which makes switching painful and renewals automatic.",
-    sourceNotes: "Vanta and Whistic publish questionnaire volume and sales-cycle impact research."
+    sourceNotes: "Vanta's State of Trust research: security teams spend about 7 hours a week on vendor security assessments."
   },
   {
     id: "local-govt-agenda-digest",
     aiLeverage: 3, // 1-5, how much of the work is genuinely LLM-native
-    defensibility: 4, // 1-5, honest read of the "moat" field above
+    defensibility: 2, // 1-5, honest read of the "moat" field above
     opportunityType: "build", // "build" | "buy" | "invest" - all pool entries are build-it-yourself by design
     title: "Local Government Intelligence for Regional Businesses",
     category: "Data Products",
     thesis: "Monitor every city council, planning commission and school board agenda in a metro and alert clients to items that affect them.",
     customer: "Developers, contractors, hospital systems, regional banks and trade associations with a stake in local decisions.",
-    need: "Local government decisions carry real commercial consequences and are announced in public documents almost nobody reads. Lobbying firms monitor this by hand at a price only large clients pay. The documents are public, published on a schedule, and machine-readable enough.",
-    competitors: ["FiscalNote", "Curate", "Polco", "Municode", "Local lobbying and government affairs firms"],
+    need: "Local government decisions carry real commercial consequences and are announced in public documents almost nobody reads. National platforms and lobbying firms cover this for large clients. The documents are public, published on a schedule, and machine-readable enough.",
+    competitors: ["FiscalNote (owns Curate)", "Polco", "Municode (CivicPlus)", "Local lobbying and government affairs firms"],
     complexity: 3,
     complexityWhy: "Ingestion across dozens of inconsistent municipal websites is unglamorous, ongoing engineering work.",
     capital: { total: 32000, lines: [
@@ -869,8 +869,99 @@ export const IDEAS = [
       "Price per seat per month to five design partners in different industries before broadening."
     ],
     claudeRole: "Reading every agenda and packet, classifying items by client interest profile, and writing the two-sentence why-this-matters note.",
-    moat: "Complete, reliable ingestion of one metro. Boring, hard to replicate, and it compounds into an archive.",
-    sourceNotes: "Municipal agendas and packets are public record; FiscalNote and Curate establish the commercial category."
+    moat: "Thin. FiscalNote's Curate already ingests meeting documents from 12,000+ municipalities. The defensible piece is judgment about what matters to one industry in one metro, and the relationships that come with it.",
+    sourceNotes: "Municipal agendas and packets are public record; FiscalNote, which owns Curate, monitors 12,000+ municipalities and establishes the category."
+  },
+
+  // ---- Drafts added 2026-09-27 to diversify the pool (buy-type and consumer
+  // product ideas). verification.js marks them needs-review: they are never
+  // selected until the owner approves them.
+  {
+    id: "buy-ai-bookkeeping-practice",
+    aiLeverage: 4,
+    defensibility: 3,
+    opportunityType: "buy",
+    title: "Buy a Small Bookkeeping and Tax Practice, Then Rebuild It Around AI",
+    category: "AI Services",
+    thesis: "Buy an owner-run bookkeeping and tax practice with an SBA loan, keep its clients, and use AI to cut the hours each client takes so the same staff can serve more of them.",
+    customer: "The practice's existing small-business and individual clients, who already pay monthly bookkeeping and annual tax fees.",
+    need: "Accounting practices change hands every year - BizBuySell reports a median sale price of about $500,000 for accounting and tax practices in 2025, at about 1.1 times revenue. An SBA 7(a) loan requires the buyer to put in at least 10 percent of the project cost as equity. The client base is recurring revenue; what AI changes is the hours behind it.",
+    competitors: ["Crete Professionals Alliance", "Pilot", "Private equity accounting roll-ups", "Search fund buyers"],
+    complexity: 4,
+    complexityWhy: "You run a professional practice with debt service, client retention risk and staff you did not hire from day one - and it must be a non-attest practice, because audit, review and compilation work requires a CPA-majority-owned firm.",
+    capital: { total: 100000, lines: [
+      { label: "SBA equity injection (10 percent of about a $460k project)", amount: 46000 },
+      { label: "Quality-of-earnings review and deal attorney", amount: 18000 },
+      { label: "Working capital beyond the loan", amount: 14000 },
+      { label: "AI tooling and data migration, year one", amount: 8000 },
+      { label: "Runway reserve", amount: 14000 }
+    ]},
+    firstNinety: [
+      "Before signing: get a quality-of-earnings review, three years of client retention, and a seller transition agreement that covers the next tax season. Tie part of the price to clients retained.",
+      "After closing: change nothing clients can see. Time every recurring task and put AI on the three most repetitive ones - categorization, reconciliations, workpaper prep.",
+      "Measure hours per client before and after. Take on new clients with the freed capacity only after retention through the first tax season is proven."
+    ],
+    claudeRole: "Transaction categorization review, reconciliation exception notes, workpaper and memo drafting, client emails, and writing down the seller's know-how before they leave.",
+    moat: "The acquired client relationships and the seller's referral network. The AI workflow is copyable; a book of local clients that trusts you is not.",
+    sourceNotes: "BizBuySell accounting-practice benchmarks (median price about $500,000 in 2025, 1.11 times revenue); SBA SOP 50 10 8 (10 percent equity injection for a change of ownership). Crete Professionals Alliance is running the same playbook with Thrive Capital money."
+  },
+  {
+    id: "buy-ai-property-management-firm",
+    aiLeverage: 3,
+    defensibility: 3,
+    opportunityType: "buy",
+    title: "Buy a Small Residential Property Management Firm and Automate Its Back Office",
+    category: "Vertical AI",
+    thesis: "Buy an owner-run property management company with a few hundred rental homes under contract, keep its owners and tenants, and run leasing, maintenance and owner reporting with AI so each door takes fewer hours.",
+    customer: "Rental property owners who already pay the firm a monthly management fee, and the tenants it serves on their behalf.",
+    need: "Owner-run property managers sell regularly - BizBuySell puts the median revenue multiple at about 0.69, with a median asking price in the high $200,000s and median revenue of about $437,667. National roll-ups are buying local managers too: Evernest has made more than 30 acquisitions, including one in St. Louis.",
+    competitors: ["Evernest", "AppFolio", "Buildium (RealPage)", "Local property management firms"],
+    complexity: 4,
+    complexityWhy: "Trust accounting, fair-housing and landlord-tenant law apply from the first day, and most states treat managing rentals for others as licensed real estate activity - confirm the license and trust-account rules in your state before you close.",
+    capital: { total: 100000, lines: [
+      { label: "SBA equity injection (10 percent of about a $330k project)", amount: 33000 },
+      { label: "Quality of earnings, attorney, license and trust-account setup", amount: 16000 },
+      { label: "Working capital beyond the loan", amount: 20000 },
+      { label: "AI tooling and system migration", amount: 9000 },
+      { label: "Runway reserve", amount: 22000 }
+    ]},
+    firstNinety: [
+      "Before signing: audit the trust account, whether the management agreements can be assigned, and door churn for the last three years. Tie part of the price to doors retained.",
+      "After closing: keep the staff and everything owners see. Put AI on maintenance intake, leasing inquiries and the monthly owner statement narrative first.",
+      "Measure hours per door and owner churn. Only then offer the lower-cost structure to new owners."
+    ],
+    claudeRole: "Tenant inquiry and maintenance request triage, notice and lease drafting from approved templates, monthly owner statement narratives, and documenting the seller's processes before they leave.",
+    moat: "The acquired management agreements and the local vendor network. Doors leave when service slips, so the moat is retention, not software.",
+    sourceNotes: "BizBuySell property-management benchmarks (median revenue multiple 0.69, median revenue about $437,667); Evernest's acquisition of St. Louis Property Management. State licensing summaries note most states require a real estate license to manage property for others."
+  },
+  {
+    id: "patient-appeal-app",
+    aiLeverage: 4,
+    defensibility: 1,
+    opportunityType: "build",
+    title: "Self-Serve Insurance Appeal Builder for Patients",
+    category: "Consumer AI",
+    thesis: "A web app that walks a patient through appealing a denied health claim - the denial reason, the plan's own policy language, the deadlines - and produces the letter and the submission checklist, for a flat fee per appeal.",
+    customer: "Patients and caregivers with a denied claim, starting with ACA marketplace plan members, where denials are frequent and appeals are rare.",
+    need: "KFF found that HealthCare.gov marketplace insurers denied 19 percent of in-network claims in 2024, and consumers appealed less than 1 percent of them. Of the denials that were appealed, insurers upheld 66 percent - so about a third were not upheld.",
+    competitors: ["Claimable", "Counterforce Health", "Patient and medical billing advocates"],
+    complexity: 3,
+    complexityWhy: "Every plan and condition differs, and a missed deadline or missing document can forfeit an appeal - the product has to get the procedure exactly right without practicing law or medicine.",
+    capital: { total: 70000, lines: [
+      { label: "Product build and model spend", amount: 18000 },
+      { label: "Legal review of scope and disclaimers", amount: 12000 },
+      { label: "Privacy and security controls", amount: 10000 },
+      { label: "Acquisition tests in one patient community", amount: 15000 },
+      { label: "Runway reserve", amount: 15000 }
+    ]},
+    firstNinety: [
+      "Pick one denial type in marketplace plans. Walk 30 patients through appeals by hand and write down every step and deadline.",
+      "Turn those steps into the app. Charge per appeal, and publish your overturn rate once there are enough appeals to make it honest.",
+      "Test one channel - a patient community for a single condition - before spending on broad ads."
+    ],
+    claudeRole: "Reading the denial letter and plan documents, matching the denial reason to the policy language, drafting the appeal letter, and building the deadline and document checklist.",
+    moat: "Thin. Counterforce Health gives this away free and Claimable charges about $40 an appeal. A paid product needs a narrower wedge - one condition or denial type - and a published overturn record.",
+    sourceNotes: "KFF analysis of 2024 HealthCare.gov marketplace claims: 19 percent in-network denial rate, under 1 percent appealed, 66 percent of appealed denials upheld."
   }
 ];
 

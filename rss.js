@@ -11,7 +11,7 @@ export const SHOW = {
   title: "Innovation Daily",
   subtitle: "One AI-driven business a day, briefed like it matters.",
   description:
-    "A five-minute daily brief on one buildable AI-driven business. Each episode covers the sixty-second pitch, the need behind it, who already owns the space, an honest execution complexity read, and a ninety-day start plan with the capital laid out. Every concept is constrained to under one hundred thousand dollars in startup capital and to skills a single operator can cover with Claude.",
+    "A four-minute brief on one buildable AI-driven business. Each episode covers the sixty-second pitch, the need behind it, who already owns the space, an honest execution complexity read, and a ninety-day start plan with the capital laid out. Every concept is constrained to under one hundred thousand dollars in estimated startup capital and to skills a single operator can cover with Claude.",
   author: "Paul Luker",
   ownerEmail: "paul@stluker.com",
   language: "en-us",
@@ -21,6 +21,11 @@ export const SHOW = {
   type: "episodic",
   copyrightYear: new Date().getUTCFullYear()
 };
+
+// Carried in the feed as well as on the site: podcast apps show the feed
+// text, and a listener may never visit the page.
+export const DISCLAIMER =
+  "Research and commentary, not financial, legal or investment advice. Capital figures are estimates. Competitors and sources are checked before an idea runs; the method is published at";
 
 function esc(s) {
   return String(s == null ? "" : s)
@@ -61,8 +66,9 @@ export function buildRss(episodes, origin) {
       const pageUrl = `${origin}/${ep.date}`;
       const summary = [
         ep.pullQuote,
-        `Innovation Score ${ep.score} of 100 (${ep.band}). Execution complexity ${ep.complexity} of 5. Startup capital ${ep.capitalTotal.toLocaleString("en-US")} dollars.`,
-        ep.thesis
+        `Innovation Score ${ep.score} of 100 (${ep.band}). Execution complexity ${ep.complexity} of 5. Estimated startup capital ${ep.capitalTotal.toLocaleString("en-US")} dollars.`,
+        ep.thesis,
+        "Not financial advice."
       ]
         .filter(Boolean)
         .join(" ");
@@ -92,13 +98,13 @@ export function buildRss(episodes, origin) {
     <title>${esc(SHOW.title)}</title>
     <link>${esc(origin)}</link>
     <atom:link href="${esc(origin)}/rss.xml" rel="self" type="application/rss+xml" />
-    <description>${esc(SHOW.description)}</description>
+    <description>${esc(`${SHOW.description} ${DISCLAIMER} ${origin}/method.html`)}</description>
     <language>${SHOW.language}</language>
     <copyright>Copyright ${SHOW.copyrightYear} ${esc(SHOW.author)}</copyright>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <itunes:author>${esc(SHOW.author)}</itunes:author>
     <itunes:subtitle>${esc(SHOW.subtitle)}</itunes:subtitle>
-    <itunes:summary>${esc(SHOW.description)}</itunes:summary>
+    <itunes:summary>${esc(`${SHOW.description} ${DISCLAIMER} ${origin}/method.html`)}</itunes:summary>
     <itunes:type>${SHOW.type}</itunes:type>
     <itunes:explicit>${SHOW.explicit}</itunes:explicit>
     <itunes:image href="${esc(showImage)}" />
