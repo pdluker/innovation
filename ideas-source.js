@@ -519,7 +519,7 @@ export const IDEAS = [
     need: "An executor is an unwilling amateur handling a deadline-driven court process during a bad year of their life. Attorneys bill this work at their rate and dislike it. The court forms are published and the process is mechanical once the assets are identified.",
     competitors: ["EstateExec", "Atticus", "Trust & Will", "Estate attorneys doing it in-house"],
     complexity: 2,
-    complexityWhy: "No license required for inventory work in most states, but be scrupulous about not practicing law.",
+    complexityWhy: "Licensing and unauthorized-practice rules vary by state - confirm both with a local probate attorney before taking a client.",
     capital: { total: 17000, lines: [
       { label: "Entity, bonding, insurance", amount: 6000 },
       { label: "Attorney review of scope boundaries", amount: 4000 },

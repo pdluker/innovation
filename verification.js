@@ -416,7 +416,7 @@ export const VERIFICATION = {
   },
 
   "estate-inventory": {
-    status: "held",
+    status: "verified",
     lastVerified: VERIFIED_ON,
     competitors: [
       C("EstateExec", "https://www.estateexec.com/", "established", "direct", "Executor software with estate accounting, launched 2015; about $199."),
@@ -428,12 +428,10 @@ export const VERIFICATION = {
       S("Trust & Will offers attorney-guided probate", "https://trustandwill.com/probate/attorney-probate", "Trust & Will")
     ],
     changes: [
-      "Added Trust & Will's probate service, which competes directly."
+      "Added Trust & Will's probate service, which competes directly.",
+      "Replaced the unverified licensing claim with owner-approved wording (2026-10-09)."
     ],
-    openItems: [
-      "The entry says no license is required for inventory work in most states. That legal claim could not be verified across states. Suggested replacement for complexityWhy: 'Licensing and unauthorized-practice rules vary by state - confirm both with a local probate attorney before taking a client.'",
-      "A listener could act on this directly, so the owner must approve the wording before this idea runs."
-    ],
+    openItems: [],
     corrections: []
   },
 
