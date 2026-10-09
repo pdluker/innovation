@@ -55,7 +55,8 @@
   ],
 
   "triggers": {
-    // Tuesday and Thursday, 11:00 UTC = 06:00 America/Chicago (CDT) /
+    // Tuesdays only (Thursday dropped 2026-10-09 to save ElevenLabs credits),
+    // 11:00 UTC = 06:00 America/Chicago (CDT) /
     // 05:00 (CST).
     //
     // DAY NAMES, NEVER NUMBERS. Cloudflare counts weekdays 1 = Sunday to
@@ -65,7 +66,7 @@
     // misread. Keep stl-dispatcher's reconcile.js declaration identical.
     //
     // Workers Paid allows 250 cron triggers per account.
-    "crons": ["0 11 * * TUE,THU"]
+    "crons": ["0 11 * * TUE"]
   },
 
   "vars": {
