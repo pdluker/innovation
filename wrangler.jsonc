@@ -45,14 +45,14 @@
   // binding exists the Worker runs on the bundled pool and the review queue,
   // reactions and seeds stay off - nothing breaks. To turn it on, follow
   // RELEASE.md step 3: create the database, paste its id below, uncomment.
-  // "d1_databases": [
-  //   {
-  //     "binding": "DB",
-  //     "database_name": "innovation-daily",
-  //     "database_id": "PASTE-ID-FROM-wrangler-d1-create",
-  //     "migrations_dir": "migrations"
-  //   }
-  // ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "innovation-daily",
+      "database_id": "4c1308d2-3460-48d6-a598-da31a8da4e33",
+      "migrations_dir": "migrations"
+    }
+  ],
 
   "triggers": {
     // Tuesday and Thursday, 11:00 UTC = 06:00 America/Chicago (CDT) /
