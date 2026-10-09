@@ -99,4 +99,4 @@ The same numbering trap applies to `rails-beneath-us`: its `0 11 * * 1,3,5` mean
 2. **Three new drafts, needing review.** Two are buy-type: an AI-enabled bookkeeping practice and a property management firm. The third is a consumer appeal app. Approve them in `/admin.html` after step 3, or leave them.
 3. ~~**Episode length.**~~ Done 2026-10-09. The 540-720 budget actually produced 3:14-3:43 episodes, because the model writes under its section ranges. The budget is now 800-940 words (ceiling 1000), with the spoken sections raised about 40 percent, aiming at 5 minutes; the feed says "five-minute". Check the measured duration of the first run and adjust `script.js` if needed.
 4. Swap the master doc into the claude.ai project's knowledge (plan item P0 #4).
-5. AI News Daily: deploy it or shelve it.
+5. ~~AI News Daily: deploy it or shelve it.~~ Done: it is live as "AI Daily" at ai.stluker.com since 2026-10-05 (folder `C:\Users\pdluk\ai-daily`). stl-dispatcher writes a daily edition at 11:45 UTC and an "AI Daily Recap" episode Mon/Thu at 11:50 UTC. Left: validate the feed and submit it to Apple and Spotify.
