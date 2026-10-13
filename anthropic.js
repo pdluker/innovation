@@ -27,6 +27,16 @@ const FALLBACK_BETA = "server-side-fallback-2026-07-01";
 // max_tokens where the SDK's HTTP timeout is comfortable.
 const DEFAULT_MAX_TOKENS = 16000;
 
+// The brief is a ~1,000 word spoken script plus written-only sections, as
+// JSON. 4000 was truncating it mid-array on 2026-10-13 (the model shares
+// this budget with any reasoning it does). This is only a ceiling: unused
+// tokens are not billed.
+const BRIEF_MAX_TOKENS = 12000;
+
+/** Metadata of the most recent brief call, so a parse failure downstream can
+ *  say what the API actually returned (stop reason, tokens, block types). */
+export let lastBriefMeta = null;
+
 /** ANTHROPIC_BASE_URL exists so the offline integration test can point the
  *  Worker at a local mock. Production never sets it. */
 export function anthropicClient(env) {
@@ -57,7 +67,7 @@ function assertAnswered(message, what) {
  * @param {object} env
  * @param {{ system: string, messages: object[], maxTokens?: number }} req
  */
-export async function briefCall(env, { system, messages, maxTokens = 4000 }) {
+export async function briefCall(env, { system, messages, maxTokens = BRIEF_MAX_TOKENS }) {
   const message = await anthropicClient(env).messages.create({
     model: BRIEF_MODEL,
     max_tokens: maxTokens,
@@ -65,6 +75,18 @@ export async function briefCall(env, { system, messages, maxTokens = 4000 }) {
     messages
   });
   assertAnswered(message, "brief");
+  lastBriefMeta = {
+    stop_reason: message.stop_reason,
+    model: message.model,
+    in: message.usage && message.usage.input_tokens,
+    out: message.usage && message.usage.output_tokens,
+    blocks: (message.content || []).map((b) => b.type),
+    max: maxTokens
+  };
+  console.log(`brief: stop_reason=${message.stop_reason} in=${message.usage && message.usage.input_tokens} out=${message.usage && message.usage.output_tokens} max=${maxTokens}`);
+  if (message.stop_reason === "max_tokens") {
+    throw new Error(`brief: output truncated at max_tokens (${maxTokens}, out=${message.usage && message.usage.output_tokens})`);
+  }
   const text = textOf(message);
   if (!text) throw new Error("brief: model returned no text");
   return text;

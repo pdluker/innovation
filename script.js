@@ -11,7 +11,7 @@
 // grounded material; flagged sentences get one rewrite, and anything still
 // flagged after that is cut before audio. See review.js for why.
 
-import { briefCall, CHECK_MODEL } from "./anthropic.js";
+import { briefCall, CHECK_MODEL, lastBriefMeta } from "./anthropic.js";
 import { reviewDraft } from "./review.js";
 
 const WORD_CEILING = 1000;     // hard ship-anyway ceiling
@@ -276,7 +276,13 @@ export async function generateScript(env, idea, dateKey) {
   const messages = [{ role: "user", content: userPrompt(idea, dateKey) }];
 
   let raw = await briefCall(env, { system: SYSTEM_PROMPT, messages });
-  let sections = parseSections(raw);
+  let sections;
+  try {
+    sections = parseSections(raw);
+  } catch (err) {
+    // 2026-10-13: first-draft parse failures were opaque. Say what came back.
+    throw new Error(`${err.message} [brief diagnostics: meta=${JSON.stringify(lastBriefMeta)} chars=${raw.length} head=${JSON.stringify(raw.slice(0, 60))} tail=${JSON.stringify(raw.slice(-240))}]`);
+  }
   let narration = assembleNarration(sections);
   let wordCount = countWords(narration);
   let retried = false;
