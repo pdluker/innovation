@@ -103,7 +103,8 @@ export async function generateKit(env, idea) {
   clean.landingPage.bullets = clean.landingPage.bullets.slice(0, 3);
   clean.firstWeek = clean.firstWeek.slice(0, 7);
   if (clean.interviewScript.questions.length < 5 || clean.searchQueries.length < 5 || clean.firstWeek.length < 3) {
-    throw new Error("validation kit came back too thin to publish");
+    // 2026-10-13: say which part was short; the schema cannot enforce counts.
+    throw new Error(`validation kit came back too thin to publish (questions=${clean.interviewScript.questions.length}, queries=${clean.searchQueries.length}, firstWeek=${clean.firstWeek.length})`);
   }
   return clean;
 }
