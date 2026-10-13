@@ -198,17 +198,25 @@ export async function runPipeline(env, opts = {}) {
       console.log(`cover art failed for ${dateKey}, shipping without it: ${err.message}`);
     }
 
+    // The kit is best-effort, but its failure must be visible: keep the
+    // reason in the private review log (2026-10-13: validationKit came back false with
+    // nothing recorded). One retry, since failures so far were intermittent.
     let validationKit = null;
-    try {
-      validationKit = await generateKit(env, idea);
-    } catch (err) {
-      console.log(`validation kit failed for ${dateKey}, shipping without it: ${err.message}`);
+    let kitError = null;
+    for (let attempt = 1; attempt <= 2 && !validationKit; attempt++) {
+      try {
+        validationKit = await generateKit(env, idea);
+        kitError = null;
+      } catch (err) {
+        kitError = err.message;
+        console.log(`validation kit attempt ${attempt} of 2 failed for ${dateKey}: ${err.message}`);
+      }
     }
 
     // The fact-check log is private: it quotes rejected sentences, which
     // should never be served as if they were part of the brief.
     try {
-      await writeJson(env, KEYS.review(dateKey), { date: dateKey, ideaId: idea.id, ...script.review });
+      await writeJson(env, KEYS.review(dateKey), { date: dateKey, ideaId: idea.id, ...script.review, kitError });
     } catch (err) {
       console.log(`review log write failed for ${dateKey}: ${err.message}`);
     }

@@ -275,14 +275,26 @@ export async function generateScript(env, idea, dateKey) {
   const material = groundedMaterial(idea);
   const messages = [{ role: "user", content: userPrompt(idea, dateKey) }];
 
-  let raw = await briefCall(env, { system: SYSTEM_PROMPT, messages });
+  // 2026-10-13: the first draft failed to parse twice in one morning, then
+  // succeeded with identical code, so treat it as intermittent: one retry,
+  // and when both attempts fail say what came back.
+  let raw;
   let sections;
-  try {
-    sections = parseSections(raw);
-  } catch (err) {
-    // 2026-10-13: first-draft parse failures were opaque. Say what came back.
-    throw new Error(`${err.message} [brief diagnostics: meta=${JSON.stringify(lastBriefMeta)} chars=${raw.length} head=${JSON.stringify(raw.slice(0, 60))} tail=${JSON.stringify(raw.slice(-240))}]`);
+  let draftError;
+  for (let attempt = 1; attempt <= 2 && !sections; attempt++) {
+    raw = undefined;
+    try {
+      raw = await briefCall(env, { system: SYSTEM_PROMPT, messages });
+      sections = parseSections(raw);
+    } catch (err) {
+      const detail = raw === undefined
+        ? ""
+        : ` [brief diagnostics: meta=${JSON.stringify(lastBriefMeta)} chars=${raw.length} head=${JSON.stringify(raw.slice(0, 60))} tail=${JSON.stringify(raw.slice(-240))}]`;
+      draftError = new Error(`${err.message}${detail}`);
+      console.log(`brief attempt ${attempt} of 2 failed for ${dateKey}: ${draftError.message}`);
+    }
   }
+  if (!sections) throw draftError;
   let narration = assembleNarration(sections);
   let wordCount = countWords(narration);
   let retried = false;
